@@ -1,0 +1,174 @@
+<header class="sticky top-0 z-50 bg-[#F7F4EE]/98 backdrop-blur-md border-b border-[#DED9D0] font-sans">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20 gap-6">
+      
+      <a href="/" class="flex items-center gap-3 group shrink-0">
+        <div class="w-11 h-11 rounded-2xl bg-[#52796F] text-[#FFFFFF] flex items-center justify-center shadow-sm group-hover:bg-[#3F6259] transition-all duration-300">
+          <i data-lucide="sparkles" class="w-6 h-6 text-[#C6A15B]"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-2xl font-bold tracking-tight text-[#26332F] leading-none">Derma<span class="text-[#52796F]">Nest</span></span>
+          <span class="text-[10px] font-bold text-[#C98F8F] tracking-widest uppercase mt-0.5">Botanical Skincare</span>
+        </div>
+      </a>
+
+      <div class="flex-1 max-w-2xl mx-4 hidden md:block">
+        <form action="/products/" method="GET" class="relative group">
+          <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search products, key ingredients, skin concerns..." 
+            class="w-full bg-[#FFFFFF] border border-[#DED9D0] rounded-full pl-11 pr-28 py-3 text-sm text-[#26332F] placeholder-[#68736F]/60 focus:outline-none focus:border-[#52796F] focus:ring-2 focus:ring-[#52796F]/20 shadow-sm transition-all">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#68736F] group-focus-within:text-[#52796F]">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </div>
+          <button type="submit" class="absolute inset-y-1.5 right-1.5 px-6 bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] text-xs font-bold rounded-full flex items-center justify-center transition-all shadow-sm">
+            Search
+          </button>
+        </form>
+      </div>
+
+      <div class="flex items-center gap-3 sm:gap-4 shrink-0">
+        {% if user.is_authenticated and not user.is_staff %}
+          <a href="/wishlist/" class="p-2.5 text-[#68736F] hover:text-[#52796F] hover:bg-[#FFFFFF] rounded-full border border-transparent hover:border-[#DED9D0] transition-all relative shadow-none hover:shadow-sm" title="Wishlist">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+          </a>
+
+          <a href="/cart/" class="p-2.5 text-[#68736F] hover:text-[#52796F] hover:bg-[#FFFFFF] rounded-full border border-transparent hover:border-[#DED9D0] transition-all relative shadow-none hover:shadow-sm" title="Shopping Bag">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            {% if user.is_authenticated and user.cart.items.exists %}
+              <span class="absolute top-0 right-0 w-5 h-5 bg-[#C6A15B] text-[#26332F] text-[11px] font-bold rounded-full flex items-center justify-center border-2 border-[#F7F4EE] shadow-sm">
+                {{ user.cart.items.count }}
+              </span>
+            {% endif %}
+          </a>
+        {% endif %}
+
+        <div class="h-6 w-px bg-[#DED9D0]"></div>
+
+        {% if user.is_authenticated %}
+          <div class="flex items-center gap-2">
+            <a href="/profile/" class="flex items-center gap-2.5 group p-1 pr-3 rounded-full hover:bg-[#FFFFFF] transition-all border border-transparent hover:border-[#DED9D0]">
+              {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" alt="Profile" class="w-8 h-8 rounded-full object-cover border-2 border-[#C6A15B]">
+              {% else %}
+                <div class="w-8 h-8 rounded-full bg-[#F7F4EE] border-2 border-[#C6A15B] flex items-center justify-center text-[#52796F]">
+                  <i data-lucide="user" class="w-4 h-4"></i>
+                </div>
+              {% endif %}
+              <span class="text-xs font-bold hidden lg:block text-[#26332F] group-hover:text-[#52796F] transition-colors">{{ user.username }}</span>
+            </a>
+            
+            <button type="button" onclick="openLogoutModal()" class="p-2 text-[#68736F] hover:text-[#B85C62] hover:bg-[#FFFFFF] rounded-full border border-transparent hover:border-[#DED9D0] transition-colors cursor-pointer" title="Log Out">
+              <i data-lucide="log-out" class="w-4 h-4"></i>
+            </button>
+          </div>
+        {% else %}
+          <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">
+            <a href="/login/" class="text-[#26332F] hover:text-[#52796F] px-3.5 py-2 rounded-xl hover:bg-[#FFFFFF] transition-all border border-transparent hover:border-[#DED9D0]">Sign In</a>
+            <a href="/register/" class="bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] px-4 py-2 rounded-xl transition-all shadow-sm hover:shadow-md">Register</a>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <div class="border-t border-[#DED9D0]/60 bg-[#F7F4EE]/60 hidden md:block">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav class="flex items-center justify-center gap-8 py-3 text-xs font-bold uppercase tracking-wider text-[#68736F]">
+        <a href="/products/" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Shop All</a>
+        <a href="/products/?category=cleanser" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Cleansers</a>
+        <a href="/products/?category=serum" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Serums</a>
+        <a href="/products/?category=moisturizer" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Moisturizers</a>
+        <a href="/products/?category=sunscreen" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Sunscreens</a>
+        <a href="/products/?category=eye_care" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Eye Care</a>
+        <a href="/products/?category=lip_care" class="whitespace-nowrap hover:text-[#52796F] transition-all py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#52796F] hover:after:w-full after:transition-all">Lip Care</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="md:hidden pb-3 px-4 pt-1">
+    <form action="/products/" method="GET" class="relative">
+      <input type="text" name="search" value="{{ request.GET.search }}" placeholder="Search products..." 
+        class="w-full bg-[#FFFFFF] border border-[#DED9D0] rounded-full pl-10 pr-4 py-2 text-sm text-[#26332F] placeholder-[#68736F]/60 focus:outline-none focus:border-[#52796F]">
+      <button type="submit" class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-[#68736F]">
+        <i data-lucide="search" class="w-4 h-4"></i>
+      </button>
+    </form>
+  </div>
+
+  <div class="md:hidden flex items-center gap-6 overflow-x-auto px-4 py-2.5 border-t border-[#DED9D0]/60 text-xs font-bold uppercase tracking-wider text-[#68736F]">
+    <a href="/products/" class="whitespace-nowrap hover:text-[#52796F]">Shop All</a>
+    <a href="/products/?category=cleanser" class="whitespace-nowrap hover:text-[#52796F]">Cleansers</a>
+    <a href="/products/?category=serum" class="whitespace-nowrap hover:text-[#52796F]">Serums</a>
+    <a href="/products/?category=moisturizer" class="whitespace-nowrap hover:text-[#52796F]">Moisturizers</a>
+    <a href="/products/?category=sunscreen" class="whitespace-nowrap hover:text-[#52796F]">Sunscreens</a>
+    <a href="/products/?category=eye_care" class="whitespace-nowrap hover:text-[#52796F]">Eye Care</a>
+    <a href="/products/?category=lip_care" class="whitespace-nowrap hover:text-[#52796F]">Lip Care</a>
+  </div>
+</header>
+
+<div id="logoutModal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#26332F]/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 px-4">
+    <div id="logoutModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-6 sm:p-8 shadow-2xl transform scale-95 transition-all duration-300 space-y-6 text-center">
+        
+        <div class="w-16 h-16 bg-[#B85C62]/10 border border-[#B85C62]/20 rounded-2xl flex items-center justify-center mx-auto text-[#B85C62]">
+            <i data-lucide="log-out" class="w-8 h-8"></i>
+        </div>
+
+        <div class="space-y-2">
+            <h3 class="text-xl font-bold text-[#26332F] tracking-tight">Log Out</h3>
+            <p class="text-xs text-[#68736F] leading-relaxed">
+                Are you sure you want to log out? You will need to sign back in to view your bag and saved items.
+            </p>
+        </div>
+
+        <form action="/logout/" method="POST" class="grid grid-cols-2 gap-3 pt-2">
+            {% csrf_token %}
+            <button type="button" onclick="closeLogoutModal()" class="bg-[#F7F4EE] hover:bg-[#DED9D0]/50 text-[#26332F] font-bold py-3 px-4 rounded-xl border border-[#DED9D0] transition-all text-xs uppercase tracking-wider cursor-pointer">
+                Cancel
+            </button>
+            <button type="submit" class="bg-[#B85C62] hover:bg-[#B85C62]/90 text-white font-bold py-3 px-4 rounded-xl shadow-md transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer">
+                <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                <span>Log Out</span>
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    const logoutModal = document.getElementById('logoutModal');
+    const logoutModalCard = document.getElementById('logoutModalCard');
+
+    function openLogoutModal() {
+        if (!logoutModal || !logoutModalCard) return;
+        logoutModal.classList.remove('opacity-0', 'pointer-events-none');
+        logoutModal.classList.add('opacity-100');
+        
+        logoutModalCard.classList.remove('scale-95');
+        logoutModalCard.classList.add('scale-100');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLogoutModal() {
+        if (!logoutModal || !logoutModalCard) return;
+        logoutModal.classList.remove('opacity-100');
+        logoutModal.classList.add('opacity-0', 'pointer-events-none');
+        
+        logoutModalCard.classList.remove('scale-100');
+        logoutModalCard.classList.add('scale-95');
+        document.body.style.overflow = '';
+    }
+
+    if (logoutModal) {
+        logoutModal.addEventListener('click', function(event) {
+            if (event.target === logoutModal) {
+                closeLogoutModal();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && logoutModal && !logoutModal.classList.contains('pointer-events-none')) {
+            closeLogoutModal();
+        }
+    });
+</script>
