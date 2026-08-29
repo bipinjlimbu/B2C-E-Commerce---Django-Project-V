@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - DermaNest Botanical Skincare</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        .custom-file-input::file-selector-button {
+            background-color: #52796F;
+            color: #F7F4EE;
+            padding: 0.45rem 0.9rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-right: 0.75rem;
+            transition: background-color 0.2s ease;
+        }
+        .custom-file-input::file-selector-button:hover {
+            background-color: #3F6259;
+        }
+    </style>
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased selection:bg-[#52796F] selection:text-white">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow flex items-center justify-center px-4 py-12 sm:py-20">
+        <div class="max-w-5xl w-full bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+            
+            <div class="lg:col-span-5 bg-[#52796F] text-[#F7F4EE] p-8 sm:p-12 flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute -top-16 -left-16 w-48 h-48 bg-[#C6A15B]/15 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-16 -right-16 w-48 h-48 bg-[#3F6259] rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="relative z-10 space-y-8">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F7F4EE]/10 border border-[#F7F4EE]/20 text-[#C6A15B] text-xs font-bold uppercase tracking-widest">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-[#C6A15B]"></i>
+                        <span>DermaNest Club</span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h1 class="text-3xl sm:text-4xl font-bold text-[#F7F4EE] leading-tight tracking-tight">
+                            Begin Your Skincare Journey
+                        </h1>
+                        <p class="text-xs sm:text-sm text-[#F7F4EE]/85 leading-relaxed">
+                            Join thousands who trust clean, botanical formulas. Enjoy personalized skin routines, exclusive offers, and dedicated customer support.
+                        </p>
+                    </div>
+
+                    <div class="space-y-5 pt-2">
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-[#C6A15B]/20 border border-[#C6A15B]/30 flex items-center justify-center shrink-0 text-[#C6A15B]">
+                                <i data-lucide="leaf" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xs font-bold text-[#F7F4EE] uppercase tracking-wider">100% Natural Botanicals</h2>
+                                <p class="text-[11px] text-[#F7F4EE]/75 mt-0.5">Crafted with pure, high-performing organic ingredients.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-[#C6A15B]/20 border border-[#C6A15B]/30 flex items-center justify-center shrink-0 text-[#C6A15B]">
+                                <i data-lucide="truck" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xs font-bold text-[#F7F4EE] uppercase tracking-wider">Safe & Fast Delivery</h2>
+                                <p class="text-[11px] text-[#F7F4EE]/75 mt-0.5">Carefully packaged and delivered directly to your door.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-9 h-9 rounded-xl bg-[#C6A15B]/20 border border-[#C6A15B]/30 flex items-center justify-center shrink-0 text-[#C6A15B]">
+                                <i data-lucide="heart-handshake" class="w-4 h-4"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xs font-bold text-[#F7F4EE] uppercase tracking-wider">Expert Skincare Advice</h2>
+                                <p class="text-[11px] text-[#F7F4EE]/75 mt-0.5">Gentle guidance to help you choose what your skin needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative z-10 pt-8 mt-8 border-t border-[#F7F4EE]/15 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-[#F7F4EE]/10 border border-[#F7F4EE]/20 flex items-center justify-center text-[#C6A15B]">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs font-bold text-[#F7F4EE]">Simple & Free Registration</p>
+                        <p class="text-[11px] text-[#F7F4EE]/75">Create your personal skincare account in less than a minute.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 p-8 sm:p-12 flex flex-col justify-between bg-[#FFFFFF]">
+                <div>
+                    <div class="mb-8">
+                        <a href="/" class="inline-flex items-center gap-3 group mb-4">
+                            <div class="w-10 h-10 rounded-2xl bg-[#52796F] text-[#FFFFFF] flex items-center justify-center shadow-sm">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-[#C6A15B]"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xl font-bold tracking-tight text-[#26332F] leading-none">Derma<span class="text-[#52796F]">Nest</span></span>
+                                <span class="text-[9px] font-bold text-[#C98F8F] tracking-widest uppercase mt-0.5">Botanical Skincare</span>
+                            </div>
+                        </a>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-[#26332F] tracking-tight">Create Account</h2>
+                        <p class="text-xs sm:text-sm text-[#68736F] mt-1.5">Fill in your information below to get started.</p>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data" class="space-y-4">
+                        {% csrf_token %}
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="username" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="user" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Username</span>
+                                </label>
+                                <input type="text" id="username" name="username" value="{{ data.username }}" placeholder="Choose a username"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                                {% if errors.username %}
+                                    <p class="text-[#B85C62] text-xs mt-1 font-semibold flex items-center gap-1">
+                                        <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                                        <span>{{ errors.username }}</span>
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="email" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="mail" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Email Address</span>
+                                </label>
+                                <input type="email" id="email" name="email" value="{{ data.email }}" placeholder="your.email@example.com"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                                {% if errors.email %}
+                                    <p class="text-[#B85C62] text-xs mt-1 font-semibold flex items-center gap-1">
+                                        <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                                        <span>{{ errors.email }}</span>
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="first_name" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>First Name</span>
+                                </label>
+                                <input type="text" id="first_name" name="first_name" value="{{ data.first_name }}" placeholder="First name"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            </div>
+
+                            <div>
+                                <label for="last_name" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="user-check" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Last Name</span>
+                                </label>
+                                <input type="text" id="last_name" name="last_name" value="{{ data.last_name }}" placeholder="Last name"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            </div>
+
+                            <div>
+                                <label for="password" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Password</span>
+                                </label>
+                                <input type="password" id="password" name="password" value="{{ data.password }}" placeholder="Create a password"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                                {% if errors.password %}
+                                    <p class="text-[#B85C62] text-xs mt-1 font-semibold flex items-center gap-1">
+                                        <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                                        <span>{{ errors.password }}</span>
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="confirm_password" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="shield-check" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Confirm Password</span>
+                                </label>
+                                <input type="password" id="confirm_password" name="confirm_password" value="{{ data.confirm_password }}" placeholder="Re-enter password"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                                {% if errors.confirm_password %}
+                                    <p class="text-[#B85C62] text-xs mt-1 font-semibold flex items-center gap-1">
+                                        <i data-lucide="alert-circle" class="w-3 h-3"></i>
+                                        <span>{{ errors.confirm_password }}</span>
+                                    </p>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label for="phone" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="phone" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Phone Number</span>
+                                </label>
+                                <input type="text" id="phone" name="phone" value="{{ data.phone }}" placeholder="Your contact number"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            </div>
+
+                            <div>
+                                <label for="address" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="map-pin" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Address</span>
+                                </label>
+                                <input type="text" id="address" name="address" value="{{ data.address }}" placeholder="City, Street address"
+                                    class="w-full px-3.5 py-2.5 bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl text-xs sm:text-sm text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:ring-2 focus:ring-[#52796F]/30 focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            </div>
+
+                            <div class="sm:col-span-2">
+                                <label for="profile_picture" class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#26332F] mb-1.5">
+                                    <i data-lucide="image" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>Profile Picture</span>
+                                </label>
+                                <div class="bg-[#F7F4EE]/50 border border-[#DED9D0] rounded-xl p-2 flex items-center">
+                                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*"
+                                        class="custom-file-input text-xs text-[#68736F] w-full focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" 
+                            class="w-full bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] font-bold py-3.5 px-6 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 text-sm shadow-md hover:shadow-lg mt-6 cursor-pointer">
+                            <span>Create Account</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="mt-6 pt-6 border-t border-[#DED9D0] text-center text-xs text-[#68736F]">
+                    <span>Already have an account?</span>
+                    <a href="/login/" class="text-[#52796F] font-bold hover:text-[#3F6259] transition-colors underline decoration-2 underline-offset-4 ml-1">Sign In</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

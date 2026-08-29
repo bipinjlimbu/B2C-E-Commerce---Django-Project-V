@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from ..models import User
 
+def register_view(request):
+    return render(request, 'auth/register_page.html')
+
 def login_view(request):
     if request.user.is_authenticated:
         messages.info(request, 'You are already logged in.')
