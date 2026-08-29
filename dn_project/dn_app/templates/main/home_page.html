@@ -1,19 +1,371 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DermaNest | Pure Botanical Skincare</title>
     {% load static %}
-<link  href ="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F7F4EE;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #DED9D0;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #C6A15B;
+        }
+    </style>
 </head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased">
 
-<body>
-<h1 class="text-red-500" > Hello Home </h1>
-<p class="text-blue-600" >Hello k xa </p>
-<i data-lucide="activity"></i>
+    {% include 'components/_navbar.html' %}
 
-<script src="{% static 'js/lucide.min.js' %}"></script>
-<script>
-    lucide.createIcons();
-</script>
+    {% include 'components/_messages.html' %}
 
+    <main class="flex-grow">
+        
+        <section class="relative bg-[#52796F] text-[#F7F4EE] overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C6A15B_1px,transparent_1px)] [background-size:24px_24px]"></div>
+            <div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-[#C6A15B]/15 blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-24 -bottom-24 w-96 h-96 rounded-full bg-[#3F6259] blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative z-10 text-center">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFFFF]/10 border border-[#C6A15B]/50 text-[#C6A15B] text-xs font-medium tracking-wide backdrop-blur-md mb-6">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-[#C6A15B]"></i>
+                    <span>Natural Botanical Formulations</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#F7F4EE] tracking-tight leading-[1.15] mb-6">
+                    Nourish Your Skin <br>
+                    <span class="text-[#C6A15B]">With Pure Elegance</span>
+                </h1>
+
+                <p class="text-base sm:text-lg text-[#F7F4EE]/90 max-w-2xl mx-auto leading-relaxed font-normal mb-8">
+                    Discover gentle, clean, and effective skincare crafted to restore balance, enhance your natural glow, and care for every skin type.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-4 mb-10">
+                    <a href="/products/" class="bg-[#C6A15B] hover:bg-[#3F6259] text-[#26332F] hover:text-[#FFFFFF] font-bold px-8 py-4 rounded-xl transition-all shadow-md hover:shadow-lg flex items-center gap-2 text-sm">
+                        <span>Shop Now</span>
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    
+                    {% if not user.is_authenticated %}
+                        <a href="/register/" class="bg-[#FFFFFF]/10 hover:bg-[#FFFFFF]/20 text-[#F7F4EE] font-medium px-7 py-4 rounded-xl transition-all border border-[#F7F4EE]/30 text-sm">
+                            Join Us
+                        </a>
+                    {% elif user.is_staff %}
+                        <a href="/dashboard/admin/" class="bg-[#FFFFFF]/10 hover:bg-[#FFFFFF]/20 text-[#F7F4EE] font-medium px-7 py-4 rounded-xl transition-all border border-[#F7F4EE]/30 text-sm">
+                            Dashboard
+                        </a>
+                    {% else %}
+                        <a href="/dashboard/" class="bg-[#FFFFFF]/10 hover:bg-[#FFFFFF]/20 text-[#F7F4EE] font-medium px-7 py-4 rounded-xl transition-all border border-[#F7F4EE]/30 text-sm">
+                            Dashboard
+                        </a>
+                    {% endif %}
+                </div>
+
+                <div class="pt-8 border-t border-[#F7F4EE]/15 grid grid-cols-3 gap-6 text-center max-w-lg mx-auto">
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-bold text-[#F7F4EE]">100%</p>
+                        <p class="text-xs text-[#F7F4EE]/80 font-medium mt-0.5">Clean & Safe</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-bold text-[#C6A15B]">Fast</p>
+                        <p class="text-xs text-[#F7F4EE]/80 font-medium mt-0.5">Safe Delivery</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-bold text-[#F7F4EE]">24/7</p>
+                        <p class="text-xs text-[#F7F4EE]/80 font-medium mt-0.5">Skin Care Advice</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-[#FFFFFF] border-b border-[#DED9D0] py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="flex items-center gap-4 p-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F] shrink-0">
+                            <i data-lucide="shield-check" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-[#26332F]">Tested Quality</h4>
+                            <p class="text-xs text-[#68736F] mt-0.5">Gentle & dermatologist approved</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#C98F8F] shrink-0">
+                            <i data-lucide="truck" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-[#26332F]">Safe Delivery</h4>
+                            <p class="text-xs text-[#68736F] mt-0.5">Carefully packed with love</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#C6A15B] shrink-0">
+                            <i data-lucide="rotate-ccw" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-[#26332F]">Easy Returns</h4>
+                            <p class="text-xs text-[#68736F] mt-0.5">Simple 30-day guarantee</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 p-3">
+                        <div class="w-12 h-12 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#5F8A70] shrink-0">
+                            <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-sm text-[#26332F]">Pure Ingredients</h4>
+                            <p class="text-xs text-[#68736F] mt-0.5">Clean & cruelty free</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#C98F8F]">Trusted Makers</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-[#26332F] tracking-tight mt-0.5">Featured Brands</h2>
+            </div>
+
+            <div class="flex items-center gap-4 overflow-x-auto pb-4 custom-scrollbar snap-x snap-mandatory">
+                {% for brand in brands %}
+                <a href="/products/?brand={{ brand.id }}" class="snap-start shrink-0 min-w-[140px] sm:min-w-[170px] bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-all group">
+                    <div class="w-16 h-16 rounded-xl bg-[#F7F4EE] border border-[#DED9D0]/60 flex items-center justify-center overflow-hidden mb-3 p-2 group-hover:scale-105 transition-transform">
+                        {% if brand.logo %}
+                            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
+                        {% elif brand.image %}
+                            <img src="{{ brand.image.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain">
+                        {% else %}
+                            <i data-lucide="award" class="w-8 h-8 text-[#52796F] group-hover:text-[#3F6259] transition-colors"></i>
+                        {% endif %}
+                    </div>
+                    <span class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors truncate w-full">
+                        {{ brand.name }}
+                    </span>
+                </a>
+                {% empty %}
+                <div class="w-full bg-[#FFFFFF] border border-dashed border-[#DED9D0] rounded-2xl p-6 text-center">
+                    <p class="text-xs text-[#68736F]">No brands available at the moment.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="categories" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+            <div class="mb-6">
+                <span class="text-xs font-bold uppercase tracking-widest text-[#C98F8F]">Browse By Category</span>
+                <h2 class="text-2xl sm:text-3xl font-bold text-[#26332F] tracking-tight mt-0.5">Shop Skin Care</h2>
+            </div>
+
+            <div class="flex items-center gap-4 overflow-x-auto pb-4 custom-scrollbar snap-x snap-mandatory">
+                
+                <a href="/products/?category=cleanser" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="droplet" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Cleansers</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Gentle Wash & Oils</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=serum" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="sparkles" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Serums</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Active Boosters</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=moisturizer" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="heart" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Moisturizers</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Creams & Lotions</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=sunscreen" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="sun" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Sunscreens</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Daily Protection</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=toner" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="waves" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Toners</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Mist & Hydration</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=mask" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="flower-2" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Face Masks</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Deep Treatments</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=eye_care" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="eye" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Eye Care</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Creams & Serums</p>
+                    </div>
+                </a>
+
+                <a href="/products/?category=lip_care" class="snap-start shrink-0 min-w-[140px] sm:min-w-[160px] group bg-[#FFFFFF] border border-[#DED9D0] hover:border-[#52796F] p-5 rounded-2xl text-center shadow-sm hover:shadow-md transition-all flex flex-col items-center justify-center space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] group-hover:bg-[#52796F] group-hover:border-[#52796F] flex items-center justify-center transition-colors">
+                        <i data-lucide="smile" class="w-6 h-6 text-[#52796F] group-hover:text-[#FFFFFF] transition-colors"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-xs text-[#26332F] group-hover:text-[#52796F] transition-colors">Lip Care</h3>
+                        <p class="text-[10px] text-[#68736F] mt-0.5">Balms & Treatments</p>
+                    </div>
+                </a>
+
+            </div>
+        </section>
+
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-16">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-4 border-b border-[#DED9D0]">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#C98F8F]">Handpicked Essentials</span>
+                    <h2 class="text-3xl font-bold text-[#26332F] tracking-tight mt-1">Featured Skincare</h2>
+                </div>
+                <a href="/products/" class="inline-flex items-center gap-2 text-sm font-bold text-[#52796F] hover:text-[#3F6259] transition-colors group">
+                    <span>Shop All Products</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for product in products %}
+                <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#52796F] transition-all duration-300 flex flex-col group relative">
+                    
+                    <a href="/products/{{ product.id }}/" class="flex flex-col flex-grow">
+                        <div class="aspect-square w-full relative overflow-hidden bg-[#F7F4EE] border-b border-[#DED9D0]/80">
+                            {% if product.product_image %}
+                                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            {% else %}
+                                <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                                    <i data-lucide="sparkles" class="w-12 h-12 text-[#52796F]/40 group-hover:scale-110 group-hover:text-[#52796F] transition-all"></i>
+                                    <span class="text-[10px] uppercase font-bold tracking-widest text-[#68736F] mt-3">DermaNest Collection</span>
+                                </div>
+                            {% endif %}
+
+                            <span class="absolute top-4 left-4 bg-[#52796F] text-[#F7F4EE] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm z-10">
+                                {{ product.get_condition_display|default:"All Skin Types" }}
+                            </span>
+                        </div>
+
+                        <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+                            <div class="space-y-1.5">
+                                <h3 class="font-bold text-[#26332F] text-base group-hover:text-[#52796F] transition-colors line-clamp-1">
+                                    {{ product.name|truncatechars:30|default:"Unnamed Product" }}
+                                </h3>
+                                <p class="text-xs text-[#68736F] line-clamp-2 leading-relaxed">
+                                    {{ product.description|truncatechars:70|default:"No description available." }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="p-5 pt-0 mt-auto">
+                        <div class="pt-3 border-t border-[#DED9D0]/70 flex items-center justify-between">
+                            <div>
+                                <span class="block text-[10px] font-bold uppercase text-[#68736F] tracking-wider">Price</span>
+                                <span class="text-lg font-bold text-[#52796F]">Rs. {{ product.price|floatformat:2 }}</span>
+                            </div>
+
+                            {% if user.is_authenticated and not user.is_staff %}
+                                <a href="/cart/add/{{ product.id }}/" class="bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] px-3.5 py-2.5 rounded-xl font-bold text-xs transition-colors shadow-sm flex items-center gap-1.5 z-10" title="Add to Cart">
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                    <span>Add to Cart</span>
+                                </a>
+                            {% elif user.is_staff %}
+                                <a href="/dashboard/admin/?section=product-management" class="bg-[#3F6259] hover:bg-[#26332F] text-[#F7F4EE] px-3.5 py-2.5 rounded-xl font-bold text-xs transition-colors shadow-sm flex items-center gap-1.5 z-10" title="Manage Item">
+                                    <i data-lucide="settings" class="w-4 h-4"></i>
+                                    <span>Manage</span>
+                                </a>
+                            {% else %}
+                                <a href="/login/" class="bg-[#F7F4EE] hover:bg-[#52796F] text-[#26332F] hover:text-[#F7F4EE] border border-[#DED9D0] px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all shadow-sm flex items-center gap-1.5 z-10" title="Sign In to Shop">
+                                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                                    <span>Sign In</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+                {% empty %}
+                <div class="col-span-full bg-[#FFFFFF] border border-dashed border-[#DED9D0] rounded-3xl p-12 text-center space-y-4">
+                    <div class="w-16 h-16 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center mx-auto text-[#52796F]">
+                        <i data-lucide="package-open" class="w-8 h-8"></i>
+                    </div>
+                    <div class="max-w-sm mx-auto space-y-1">
+                        <h3 class="font-bold text-lg text-[#26332F]">No Products Available</h3>
+                        <p class="text-xs text-[#68736F]">We are currently updating our skincare store. Please check back soon!</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="bg-[#52796F] text-[#F7F4EE] py-16 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+                <span class="px-3.5 py-1 rounded-full bg-[#C6A15B]/20 border border-[#C6A15B]/40 text-[#C6A15B] text-xs font-bold uppercase tracking-wider">
+                    DermaNest Skincare Guarantee
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-bold text-[#F7F4EE]">Ready for Healthy, Radiant Skin?</h2>
+                <p class="text-sm sm:text-base text-[#F7F4EE]/90 max-w-xl mx-auto leading-relaxed">
+                    Whether you are creating a simple daily routine or looking for targeted skincare solutions, our gentle botanical products are made for you.
+                </p>
+                <div class="pt-2 flex justify-center gap-4">
+                    <a href="/products/" class="bg-[#C6A15B] hover:bg-[#F7F4EE] text-[#26332F] font-bold px-8 py-3.5 rounded-xl transition-all shadow-md text-sm">
+                        Browse All Products
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
