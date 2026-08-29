@@ -4,6 +4,10 @@ from django.contrib import messages
 from ..models import User
 
 def login_view(request):
+    if request.user.is_authenticated:
+        messages.info(request, 'You are already logged in.')
+        return redirect('/')
+    
     errors = {}
     if request.method == 'POST':
         username = request.POST.get('username')
