@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from ..models import User
 
@@ -29,3 +30,9 @@ def login_view(request):
             messages.error(request, 'Invalid username or password.')
             
     return render(request, 'auth/login_page.html')
+
+@login_required
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'You have been logged out.')
+    return redirect('/login/')
