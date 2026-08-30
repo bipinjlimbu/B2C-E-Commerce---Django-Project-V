@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | DermaNest Botanical Skincare</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #DED9D0;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #C6A15B;
+        }
+    </style>
+</head>
+
+<body class="bg-[#F7F4EE] text-[#68736F] font-sans flex min-h-screen overflow-hidden selection:bg-[#52796F] selection:text-white">
+
+    {% include 'components/_messages.html' %}
+
+    <aside class="w-72 bg-[#FFFFFF] text-[#68736F] flex flex-col shadow-sm border-r border-[#DED9D0] shrink-0 relative z-30">
+        
+        <div class="p-6 border-b border-[#DED9D0] bg-[#F7F4EE]/50">
+            <div class="flex items-center gap-3.5">
+                <div class="h-11 w-11 bg-[#52796F] rounded-2xl flex items-center justify-center shadow-md text-[#C6A15B]">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-[#26332F] leading-none">
+                        Derma<span class="text-[#C6A15B]">Nest</span>
+                    </h1>
+                    <p class="text-[10px] font-bold text-[#C6A15B] uppercase tracking-widest mt-1">Admin Panel</p>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-grow p-4 space-y-6 overflow-y-auto custom-scrollbar">
+            
+            <div>
+                <p class="px-3 text-[10px] font-bold text-[#52796F] uppercase tracking-widest mb-2">Customers</p>
+                <a href="?section=customer-management" class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'customer-management' or not section %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                    <i data-lucide="users" class="w-4 h-4 {% if section == 'customer-management' or not section %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                    <span>Customers</span>
+                </a>
+            </div>
+
+            <div>
+                <p class="px-3 text-[10px] font-bold text-[#52796F] uppercase tracking-widest mb-2">Products</p>
+                <div class="space-y-1">
+                    <a href="?section=product-management" class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'product-management' %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                        <i data-lucide="package" class="w-4 h-4 {% if section == 'product-management' %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                        <span>Products</span>
+                    </a>
+
+                    <a href="?section=brand-management" class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'brand-management' %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                        <i data-lucide="award" class="w-4 h-4 {% if section == 'brand-management' %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                        <span>Brands</span>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <p class="px-3 text-[10px] font-bold text-[#52796F] uppercase tracking-widest mb-2">Sales</p>
+                <a href="?section=order-fulfillment" class="flex items-center justify-between px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'order-fulfillment' %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 {% if section == 'order-fulfillment' %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                        <span>Orders</span>
+                    </div>
+                    {% if pending_orders_count > 0 %}
+                        <span class="bg-[#C6A15B] text-[#26332F] px-2 py-0.5 rounded-full text-[10px] font-extrabold">
+                            {{ pending_orders_count }}
+                        </span>
+                    {% endif %}
+                </a>
+            </div>
+
+            <div>
+                <p class="px-3 text-[10px] font-bold text-[#52796F] uppercase tracking-widest mb-2">Reviews & Reports</p>
+                <div class="space-y-1">
+                    <a href="?section=product-reviews" class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'product-reviews' %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                        <i data-lucide="star" class="w-4 h-4 {% if section == 'product-reviews' %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                        <span>Customer Reviews</span>
+                    </a>
+                    
+                    <a href="?section=revenue-logs" class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all font-bold text-xs tracking-wide {% if section == 'revenue-logs' %}bg-[#52796F] text-[#F7F4EE] shadow-sm{% else %}text-[#68736F] hover:bg-[#F7F4EE] hover:text-[#26332F]{% endif %}">
+                        <i data-lucide="line-chart" class="w-4 h-4 {% if section == 'revenue-logs' %}text-[#C6A15B]{% else %}text-[#52796F]{% endif %}"></i>
+                        <span>Sales Report</span>
+                    </a>
+                </div>
+            </div>
+
+        </nav>
+
+        <div class="p-4 border-t border-[#DED9D0] bg-[#F7F4EE]/50 space-y-2">
+            <a href="/profile/" 
+               class="flex items-center justify-center gap-2 w-full bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] px-4 py-2.5 rounded-xl text-xs font-bold transition-all shadow-sm">
+                <i data-lucide="user" class="w-4 h-4 text-[#C6A15B]"></i>
+                <span>My Profile</span>
+            </a>
+
+            <a href="/"
+               class="flex items-center justify-center gap-2 w-full bg-[#FFFFFF] hover:bg-[#F7F4EE] text-[#26332F] border border-[#DED9D0] px-4 py-2.5 rounded-xl text-xs font-bold transition-all">
+                <i data-lucide="external-link" class="w-4 h-4 text-[#52796F]"></i>
+                <span>View Store</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="flex-grow flex flex-col h-screen overflow-y-auto bg-[#F7F4EE] p-6 sm:p-8 custom-scrollbar">
+        
+        {% if section == 'customer-management' or not section %}
+            {% include 'dashboard/admin/_customer_management.html' %}
+
+        {% elif section == 'product-management' %}
+            {% include 'dashboard/admin/_product_management.html' %}
+
+        {% elif section == 'brand-management' %}
+            {% include 'dashboard/admin/_brand_management.html' %}
+
+        {% elif section == 'order-fulfillment' %}
+            {% include 'dashboard/admin/_order_fulfillment.html' %}
+            
+        {% elif section == 'product-reviews' %}
+            {% include 'dashboard/admin/_product_reviews.html' %}
+
+        {% elif section == 'revenue-logs' %}
+            {% include 'dashboard/admin/_revenue_logs.html' %}
+
+        {% endif %}
+
+    </main>
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
