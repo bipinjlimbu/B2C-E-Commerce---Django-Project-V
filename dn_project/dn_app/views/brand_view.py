@@ -5,6 +5,10 @@ from ..models import Brand
 
 @login_required
 def add_brand_view(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to add a brand.')
+        return redirect('/')
+    
     errors = {}
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -30,7 +34,15 @@ def add_brand_view(request):
 
 @login_required
 def edit_brand_view(request, brand_id):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to edit this brand.')
+        return redirect('/')
+    
     brand = Brand.objects.get(id=brand_id)
+    
+    if not brand:
+        messages.error(request, 'Brand does not exist.')
+        return redirect('/dashboard/admin/?section=brand-management')
     
     errors = {}
     if request.method == 'POST':
@@ -58,7 +70,7 @@ def edit_brand_view(request, brand_id):
 def delete_brand_view(request, brand_id):
     if not request.user.is_superuser:
         messages.error(request, 'You are not authorized to delete this brand.')
-        return redirect('/dashboard/admin/?section=brand-management')
+        return redirect('/')
     
     try:
         brand = Brand.objects.get(id=brand_id)
