@@ -1,0 +1,180 @@
+<div class="space-y-6">
+
+    <div class="bg-[#FFFFFF] rounded-2xl p-6 border border-[#DED9D0] shadow-sm relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 text-[#C6A15B]/10 pointer-events-none">
+            <i data-lucide="award" class="w-36 h-36"></i>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-[#52796F] text-[#C6A15B] flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="bookmark" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-[#52796F] uppercase tracking-widest block">Brand Management</span>
+                    <h1 class="text-2xl font-bold text-[#26332F] tracking-tight">Partner Brands</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-[#F7F4EE] text-[#26332F] px-4 py-2.5 rounded-xl border border-[#DED9D0] text-xs font-bold flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#5F8A70]"></span>
+                    <span>Total Brands:</span>
+                    <span class="text-[#52796F] font-black text-sm">{{ brands|length|default:"0" }}</span>
+                </div>
+
+                <a href="/brands/add/" class="bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all flex items-center gap-2 shadow-sm active:scale-95">
+                    <i data-lucide="plus" class="w-4 h-4 text-[#C6A15B]"></i>
+                    Add New Brand
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                {% if brands %}
+                    <thead>
+                        <tr class="border-b border-[#DED9D0] text-[10px] font-bold uppercase tracking-widest text-[#52796F] bg-[#F7F4EE]">
+                            <th class="py-4 px-6">Brand Name</th>
+                            <th class="py-4 px-4">Total Products</th>
+                            <th class="py-4 px-4">Date Added</th>
+                            <th class="py-4 px-6 text-right">Actions</th>
+                        </tr>
+                    </thead>
+                {% endif %}
+                <tbody class="divide-y divide-[#DED9D0]/60 text-sm font-medium text-[#26332F]">
+                    {% for brand in brands %}
+                        <tr class="hover:bg-[#F7F4EE]/60 transition-colors group">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] overflow-hidden flex items-center justify-center shrink-0 group-hover:border-[#C6A15B] transition-colors shadow-xs">
+                                        {% if brand.logo %}
+                                            <img src="{{ brand.logo.url }}" alt="{{ brand.name }}" class="w-full h-full object-contain p-1.5">
+                                        {% else %}
+                                            <i data-lucide="image" class="w-5 h-5 text-[#52796F]"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <span class="text-[#26332F] font-bold block leading-tight group-hover:text-[#52796F] transition-colors">
+                                            {{ brand.name }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-4">
+                                <span class="inline-flex items-center gap-1.5 bg-[#F7F4EE] text-[#26332F] border border-[#DED9D0] text-xs font-bold px-3 py-1 rounded-lg">
+                                    <i data-lucide="package" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    {{ brand.product_count|default:"0" }} Products
+                                </span>
+                            </td>
+                            <td class="py-4 px-4 text-xs font-semibold text-[#68736F]">
+                                <div class="flex items-center gap-2">
+                                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>{{ brand.created_at|date:"Y-m-d H:i" }}</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-right whitespace-nowrap">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="/brands/edit/{{ brand.id }}/" 
+                                       title="Edit Brand"
+                                       class="p-2 bg-[#F7F4EE] hover:bg-[#52796F] text-[#68736F] hover:text-[#F7F4EE] rounded-xl border border-[#DED9D0] hover:border-[#52796F] transition-all shadow-xs">
+                                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                    </a>
+                                    <button type="button" 
+                                            onclick="openDeleteBrandModal('/brands/delete/{{ brand.id }}/')" 
+                                            title="Delete Brand"
+                                            class="p-2 bg-[#F7F4EE] hover:bg-[#B85C62] text-[#68736F] hover:text-[#FFFFFF] rounded-xl border border-[#DED9D0] hover:border-[#B85C62] transition-all shadow-xs">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="py-12 px-6 text-center bg-[#F7F4EE]/30">
+                                <div class="max-w-xs mx-auto text-center space-y-3">
+                                    <div class="w-14 h-14 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center mx-auto text-[#52796F]">
+                                        <i data-lucide="award" class="w-7 h-7"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-base font-bold text-[#26332F]">No Brands Found</p>
+                                        <p class="text-xs text-[#68736F] mt-1">There are no brand items added yet. Click below to add a new brand.</p>
+                                    </div>
+                                    <a href="/brands/add/" class="inline-flex items-center gap-2 bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] text-xs font-bold px-4 py-2.5 rounded-xl transition-all shadow-xs">
+                                        <i data-lucide="plus" class="w-4 h-4 text-[#C6A15B]"></i>
+                                        Add New Brand
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div id="deleteBrandModal" class="fixed inset-0 bg-[#26332F]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="deleteBrandModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-6 space-y-6 shadow-2xl transform scale-95 transition-transform duration-300">
+        <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-[#B85C62]/10 border border-[#B85C62]/20 flex items-center justify-center text-[#B85C62] shrink-0">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+            </div>
+            <div class="space-y-1 pt-0.5">
+                <h3 class="text-base font-bold text-[#26332F]">Delete Brand</h3>
+                <p class="text-xs text-[#68736F] leading-relaxed">
+                    Are you sure you want to remove this brand? Products linked to this brand will remain intact.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2 border-t border-[#DED9D0]/60">
+            <button type="button" onclick="closeDeleteBrandModal()" class="px-4 py-2.5 bg-[#F7F4EE] hover:bg-[#DED9D0]/40 border border-[#DED9D0] text-[#68736F] hover:text-[#26332F] font-bold text-xs rounded-xl transition-all">
+                Cancel
+            </button>
+            <a id="confirmDeleteBrandBtn" href="#" class="px-5 py-2.5 bg-[#B85C62] hover:bg-[#96494F] text-[#FFFFFF] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteBrandModal = document.getElementById('deleteBrandModal');
+    const deleteBrandModalCard = document.getElementById('deleteBrandModalCard');
+    const confirmDeleteBrandBtn = document.getElementById('confirmDeleteBrandBtn');
+
+    function openDeleteBrandModal(deleteUrl) {
+        confirmDeleteBrandBtn.setAttribute('href', deleteUrl);
+        document.body.style.overflow = 'hidden';
+        
+        deleteBrandModal.classList.remove('opacity-0', 'pointer-events-none');
+        deleteBrandModalCard.classList.remove('scale-95');
+        deleteBrandModalCard.classList.add('scale-100');
+    }
+
+    function closeDeleteBrandModal() {
+        deleteBrandModal.classList.add('opacity-0', 'pointer-events-none');
+        deleteBrandModalCard.classList.remove('scale-100');
+        deleteBrandModalCard.classList.add('scale-95');
+        document.body.style.overflow = '';
+    }
+
+    if (deleteBrandModal) {
+        deleteBrandModal.addEventListener('click', function(e) {
+            if (e.target === deleteBrandModal) {
+                closeDeleteBrandModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !deleteBrandModal.classList.contains('pointer-events-none')) {
+                closeDeleteBrandModal();
+            }
+        });
+    }
+</script>
