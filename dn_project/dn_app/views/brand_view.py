@@ -27,3 +27,8 @@ def add_brand_view(request):
         return redirect('/dashboard/admin/?section=brand-management')
     
     return render(request, 'main/add_brand_page.html')
+
+@login_required
+def edit_brand_view(request, brand_id):
+    brand = Brand.objects.get(id=brand_id)
+    return render(request, 'main/edit_brand_page.html', {'brand': brand})
