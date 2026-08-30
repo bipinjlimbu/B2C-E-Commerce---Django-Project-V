@@ -47,3 +47,23 @@ def edit_profile_view(request):
         return redirect('/profile/')
     
     return render(request, 'main/edit_profile_page.html')
+
+@login_required
+def delete_profile_view(request, profile_id):
+    if request.user.id != profile_id and not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to delete this profile.')
+        return redirect('/profile/')
+    
+    try:
+        user = User.objects.get(id=profile_id)
+        user.delete()
+        messages.success(request, 'Profile deleted successfully.')
+        
+        if request.user.id == profile_id:
+            return redirect('/')
+        else:
+            return redirect('/dashboard/admin/?section=customer-management')
+        
+    except User.DoesNotExist:
+        messages.error(request, 'Profile does not exist.')
+        return redirect('/profile/')
