@@ -1020,6 +1020,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 10rem;
 }
 
+.w-fit {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 .min-w-\[320px\] {
   min-width: 320px;
 }
@@ -1042,6 +1047,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .min-w-\[120px\] {
   min-width: 120px;
+}
+
+.min-w-\[130px\] {
+  min-width: 130px;
+}
+
+.min-w-\[240px\] {
+  min-width: 240px;
 }
 
 .max-w-4xl {
@@ -1626,6 +1639,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   fill: currentColor;
 }
 
+.fill-\[\#C6A15B\] {
+  fill: #C6A15B;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -1982,6 +1999,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   text-transform: uppercase;
 }
 
+.italic {
+  font-style: italic;
+}
+
 .leading-tight {
   line-height: 1.25;
 }
@@ -1996,6 +2017,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .leading-\[1\.15\] {
   line-height: 1.15;
+}
+
+.leading-snug {
+  line-height: 1.375;
 }
 
 .tracking-widest {
@@ -2508,6 +2533,15 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:bg-\[\#9E4C52\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(158 76 82 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#F7F4EE\]\/50:hover {
+  background-color: rgb(247 244 238 / 0.5);
+}
+
+.hover\:bg-\[\#9E4B51\]:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(158 75 81 / var(--tw-bg-opacity));
 }
 
 .hover\:text-\[\#3F6259\]:hover {
