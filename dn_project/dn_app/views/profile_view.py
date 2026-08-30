@@ -6,3 +6,7 @@ from ..models import User
 @login_required
 def profile_view(request):
     return render(request, 'main/profile_page.html', {'user': request.user})
+
+@login_required
+def edit_profile_view(request):
+    return render(request, 'main/edit_profile_page.html')
