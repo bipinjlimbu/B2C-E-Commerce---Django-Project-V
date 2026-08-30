@@ -31,4 +31,25 @@ def add_brand_view(request):
 @login_required
 def edit_brand_view(request, brand_id):
     brand = Brand.objects.get(id=brand_id)
+    
+    errors = {}
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        logo = request.FILES.get('logo')
+        
+        if not name:
+            errors['name'] = 'Brand name is required.'
+        elif Brand.objects.filter(name=name).exclude(id=brand_id).exists():
+            errors['name'] = 'Brand name already exists.'
+            
+        if errors:
+            return render(request, 'main/edit_brand_page.html', {'brand': brand, 'data':request.POST,'errors': errors})
+        
+        brand.name = name
+        if logo:
+            brand.logo = logo
+        brand.save()
+        messages.success(request, 'Brand updated successfully.')
+        return redirect('/dashboard/admin/?section=brand-management')
+    
     return render(request, 'main/edit_brand_page.html', {'brand': brand})
