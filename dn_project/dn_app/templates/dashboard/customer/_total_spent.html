@@ -1,0 +1,114 @@
+<div class="space-y-6">
+
+    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 sm:p-8 shadow-xs relative overflow-hidden">
+        <div class="absolute -right-6 -bottom-6 text-[#52796F]/5 pointer-events-none">
+            <i data-lucide="wallet" class="w-40 h-40"></i>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#52796F] text-[#C6A15B] flex items-center justify-center shrink-0 shadow-xs">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-[#52796F] uppercase tracking-wider block">My Account</span>
+                    <h1 class="text-2xl font-black text-[#26332F] tracking-tight">Spending Summary</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 text-xs font-semibold text-[#68736F] bg-[#F7F4EE] border border-[#DED9D0] px-4 py-2.5 rounded-xl">
+                <i data-lucide="sparkles" class="w-4 h-4 text-[#C6A15B]"></i>
+                <span>Skincare Purchase Insights</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 shadow-xs relative overflow-hidden group hover:border-[#52796F] transition-all">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-[#52796F] uppercase tracking-wider">Total Spent</span>
+                <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F]">
+                    <i data-lucide="wallet" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-sm font-extrabold text-[#52796F]">Rs.</span>
+                <span class="text-3xl font-black text-[#26332F] tracking-tight">{{ gross_spent | floatformat:2 |default:"0" }}</span>
+            </div>
+            <p class="text-xs text-[#68736F] mt-2 font-medium">Total invested in your skin care routine</p>
+        </div>
+
+        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 shadow-xs relative overflow-hidden group hover:border-[#52796F] transition-all">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-[#52796F] uppercase tracking-wider">Completed Orders</span>
+                <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#5F8A70]">
+                    <i data-lucide="package-check" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline">
+                <span class="text-3xl font-black text-[#26332F] tracking-tight">{{ total_spent.count | default:"0" }}</span>
+            </div>
+            <p class="text-xs text-[#68736F] mt-2 font-medium">Orders delivered to your doorstep</p>
+        </div>
+
+        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 shadow-xs relative overflow-hidden group hover:border-[#52796F] transition-all">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-[#52796F] uppercase tracking-wider">Average Order Value</span>
+                <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#C6A15B]">
+                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                </div>
+            </div>
+            <div class="flex items-baseline gap-1">
+                <span class="text-sm font-extrabold text-[#52796F]">Rs.</span>
+                <span class="text-3xl font-black text-[#26332F] tracking-tight">{{ average_spent | floatformat:2 |default:"0" }}</span>
+            </div>
+            <p class="text-xs text-[#68736F] mt-2 font-medium">Average cost per skincare order</p>
+        </div>
+    </div>
+
+    <div class="space-y-4 pt-2">
+        <div class="flex items-center justify-between border-b border-[#DED9D0] pb-3">
+            <h2 class="text-base font-bold text-[#26332F]">Completed Purchases</h2>
+            <span class="text-xs text-[#68736F] font-medium">Detailed transaction list</span>
+        </div>
+
+        <div class="space-y-3">
+            {% for log in total_spent %}
+                <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:border-[#52796F] transition-all shadow-xs">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-3">
+                            <span class="font-extrabold text-sm text-[#26332F] bg-[#F7F4EE] px-3 py-1 rounded-lg border border-[#DED9D0]">
+                                #ORDER-{{ log.id }}
+                            </span>
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#5F8A70]/10 border border-[#5F8A70]/30 text-[#5F8A70] text-xs font-bold">
+                                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                                <span>Completed</span>
+                            </span>
+                        </div>
+                        <p class="text-xs text-[#68736F] font-medium flex items-center gap-1 pt-1">
+                            <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                            <span>Date: {{ log.created_at | date:"Y-m-d H:i" }}</span>
+                        </p>
+                    </div>
+
+                    <div class="text-left sm:text-right w-full sm:w-auto border-t sm:border-t-0 border-[#DED9D0] pt-3 sm:pt-0">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-[#68736F] block">Amount Paid</span>
+                        <div class="flex items-baseline sm:justify-end gap-1">
+                            <span class="text-xs font-bold text-[#52796F]">Rs.</span>
+                            <span class="text-lg font-black text-[#26332F]">{{ log.total_amount | floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="flex flex-col items-center justify-center text-center p-12 bg-[#FFFFFF] border border-dashed border-[#DED9D0] rounded-2xl min-h-[220px]">
+                    <div class="w-14 h-14 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center mb-3 text-[#52796F] shadow-xs">
+                        <i data-lucide="receipt" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-base font-bold text-[#26332F]">No Purchases Yet</h3>
+                    <p class="text-xs text-[#68736F] max-w-xs mt-1">You haven't completed any transactions yet. Start shopping to build your skin care collection.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>

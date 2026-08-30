@@ -431,7 +431,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-scroll-snap-strictness: proximity;
 }
 
-.divide-y > *, .border, .border-2, .border-4, .border-t, .border-b, .border-r, .after\:border::after, .lg\:border-t-0 {
+.divide-y > *, .border, .border-2, .border-4, .border-t, .border-b, .border-r, .after\:border::after, .sm\:border-t-0, .lg\:border-t-0 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
@@ -770,6 +770,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .ml-0 {
   margin-left: 0px;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 .block {
@@ -2790,6 +2794,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     gap: 1rem;
   }
 
+  .sm\:border-t-0 {
+    border-top-width: 0px;
+  }
+
   .sm\:p-12 {
     padding: 3rem;
   }
@@ -2822,6 +2830,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .sm\:text-left {
     text-align: left;
+  }
+
+  .sm\:text-right {
+    text-align: right;
   }
 
   .sm\:text-4xl {
