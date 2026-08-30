@@ -638,6 +638,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   bottom: -1.5rem;
 }
 
+.-right-8 {
+  right: -2rem;
+}
+
+.-bottom-8 {
+  bottom: -2rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -1060,6 +1068,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 20rem;
 }
 
+.max-w-\[200px\] {
+  max-width: 200px;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1285,6 +1297,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .divide-\[\#DED9D0\]\/60 > :not([hidden]) ~ :not([hidden]) {
   border-color: rgb(222 217 208 / 0.6);
+}
+
+.divide-\[\#DED9D0\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-opacity: 1;
+  border-color: rgb(222 217 208 / var(--tw-divide-opacity));
 }
 
 .overflow-hidden {
@@ -1565,6 +1582,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-gradient-to: #C98F8F;
 }
 
+.fill-current {
+  fill: currentColor;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -1807,6 +1828,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pt-0\.5 {
   padding-top: 0.125rem;
+}
+
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
+.pr-6 {
+  padding-right: 1.5rem;
 }
 
 .text-left {
@@ -2352,6 +2381,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(198 161 91 / var(--tw-border-opacity));
 }
 
+.hover\:border-\[\#B85C62\]\/30:hover {
+  border-color: rgb(184 92 98 / 0.3);
+}
+
 .hover\:bg-\[\#3F6259\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(63 98 89 / var(--tw-bg-opacity));
@@ -2418,6 +2451,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:bg-\[\#B5904B\]:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(181 144 75 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-\[\#B85C62\]\/10:hover {
+  background-color: rgb(184 92 98 / 0.1);
 }
 
 .hover\:text-\[\#3F6259\]:hover {

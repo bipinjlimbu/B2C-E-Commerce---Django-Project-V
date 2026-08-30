@@ -1,0 +1,173 @@
+<div class="space-y-6">
+
+    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 text-[#C6A15B]/10 pointer-events-none">
+            <i data-lucide="message-square" class="w-48 h-48"></i>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#52796F] text-[#C6A15B] flex items-center justify-center shrink-0 shadow-sm">
+                    <i data-lucide="star" class="w-6 h-6 fill-current"></i>
+                </div>
+                <div>
+                    <span class="text-[11px] font-bold text-[#52796F] uppercase tracking-wider block">Customer Feedback</span>
+                    <h1 class="text-2xl font-black text-[#26332F] tracking-tight">Product Reviews</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <div class="bg-[#F7F4EE] border border-[#DED9D0] text-[#26332F] px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-[#52796F]"></i>
+                    <span>Total Reviews:</span>
+                    <span class="bg-[#52796F] text-[#FFFFFF] px-2 py-0.5 rounded-md font-extrabold text-xs">{{ product_reviews|length }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="border-b border-[#DED9D0] text-[11px] font-bold uppercase tracking-wider text-[#52796F] bg-[#F7F4EE]">
+                        <th class="p-4 pl-6">Product</th>
+                        <th class="p-4">Customer</th>
+                        <th class="p-4">Rating</th>
+                        <th class="p-4 max-w-sm">Review Comments</th>
+                        <th class="p-4">Date</th>
+                        <th class="p-4 pr-6 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#DED9D0] text-sm font-medium text-[#26332F]">
+                    {% for review in product_reviews %}
+                        <tr class="hover:bg-[#F7F4EE]/60 transition-colors">
+                            <td class="p-4 pl-6">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F] shrink-0">
+                                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                    </div>
+                                    <div class="min-w-0">
+                                        <span class="text-[#26332F] font-bold block truncate max-w-[200px]">{{ review.product.name }}</span>
+                                        <span class="text-[11px] text-[#68736F] block">SKU: {{ review.product.sku }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="p-4">
+                                <div>
+                                    <span class="text-[#26332F] font-bold block">{{ review.customer.get_full_name }}</span>
+                                    <span class="text-[11px] text-[#C98F8F] block font-semibold">@{{ review.customer.username }}</span>
+                                </div>
+                            </td>
+                            <td class="p-4 whitespace-nowrap">
+                                <div class="flex items-center gap-1 text-[#C6A15B]">
+                                    {% for i in '12345' %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                        {% else %}
+                                            <i data-lucide="star" class="w-4 h-4 text-[#DED9D0]"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td class="p-4 max-w-sm">
+                                <div class="bg-[#F7F4EE] border border-[#DED9D0] p-3 rounded-xl text-xs text-[#68736F] leading-relaxed">
+                                    <p class="line-clamp-3 text-[#26332F]">{{ review.comment }}</p>
+                                </div>
+                            </td>
+                            <td class="p-4 text-xs text-[#68736F] whitespace-nowrap">
+                                <div class="flex items-center gap-1.5">
+                                    <i data-lucide="calendar" class="w-3.5 h-3.5 text-[#52796F]"></i>
+                                    <span>{{ review.created_at|date:"Y-m-d" }}</span>
+                                </div>
+                            </td>
+                            <td class="p-4 pr-6 text-right">
+                                <button type="button" 
+                                        onclick="openDeleteReviewModal('/review/delete/{{ review.id }}')" 
+                                        title="Delete Review" 
+                                        class="inline-flex items-center justify-center w-9 h-9 bg-[#FFFFFF] hover:bg-[#B85C62]/10 text-[#68736F] hover:text-[#B85C62] rounded-xl border border-[#DED9D0] hover:border-[#B85C62]/30 transition-all active:scale-95">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="p-12 text-center">
+                                <div class="flex flex-col items-center justify-center max-w-xs mx-auto">
+                                    <div class="w-14 h-14 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center mb-3 text-[#52796F]">
+                                        <i data-lucide="message-square-off" class="w-7 h-7"></i>
+                                    </div>
+                                    <h3 class="text-base font-bold text-[#26332F]">No Reviews Yet</h3>
+                                    <p class="text-xs text-[#68736F] mt-1">There are no product reviews available at the moment.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div id="deleteReviewModal" class="fixed inset-0 bg-[#26332F]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="deleteReviewModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-6 space-y-6 shadow-2xl transform scale-95 transition-transform duration-300">
+        <div class="flex items-start gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-[#B85C62]/10 border border-[#B85C62]/20 flex items-center justify-center text-[#B85C62] shrink-0">
+                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+            </div>
+            <div class="space-y-1 pt-0.5">
+                <h3 class="text-base font-extrabold text-[#26332F]">Delete Review</h3>
+                <p class="text-xs text-[#68736F] leading-relaxed">
+                    Are you sure you want to delete this customer review? This action cannot be undone.
+                </p>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-2 border-t border-[#DED9D0]/60">
+            <button type="button" onclick="closeDeleteReviewModal()" class="px-4 py-2.5 bg-[#F7F4EE] hover:bg-[#DED9D0]/40 border border-[#DED9D0] text-[#68736F] hover:text-[#26332F] font-bold text-xs rounded-xl transition-all">
+                Cancel
+            </button>
+            <a id="confirmDeleteReviewBtn" href="#" class="px-5 py-2.5 bg-[#B85C62] hover:bg-[#3F6259] text-[#FFFFFF] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5">
+                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const deleteReviewModal = document.getElementById('deleteReviewModal');
+    const deleteReviewModalCard = document.getElementById('deleteReviewModalCard');
+    const confirmDeleteReviewBtn = document.getElementById('confirmDeleteReviewBtn');
+
+    function openDeleteReviewModal(deleteUrl) {
+        confirmDeleteReviewBtn.setAttribute('href', deleteUrl);
+        document.body.style.overflow = 'hidden';
+        
+        deleteReviewModal.classList.remove('opacity-0', 'pointer-events-none');
+        deleteReviewModalCard.classList.remove('scale-95');
+        deleteReviewModalCard.classList.add('scale-100');
+    }
+
+    function closeDeleteReviewModal() {
+        deleteReviewModal.classList.add('opacity-0', 'pointer-events-none');
+        deleteReviewModalCard.classList.remove('scale-100');
+        deleteReviewModalCard.classList.add('scale-95');
+        document.body.style.overflow = '';
+    }
+
+    if (deleteReviewModal) {
+        deleteReviewModal.addEventListener('click', function(e) {
+            if (e.target === deleteReviewModal) {
+                closeDeleteReviewModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !deleteReviewModal.classList.contains('pointer-events-none')) {
+                closeDeleteReviewModal();
+            }
+        });
+    }
+</script>
