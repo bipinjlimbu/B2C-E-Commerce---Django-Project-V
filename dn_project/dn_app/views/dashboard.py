@@ -36,4 +36,26 @@ def admin_dashboard_view(request):
 
 @login_required
 def customer_dashboard_view(request):
-    return render(request, 'dashboard/customer_dashboard.html', {'user': request.user})
+    if request.user.is_superuser:
+        messages.error(request, 'Superusers cannot access the customer dashboard.')
+        return redirect('/dashboard/admin/')
+    
+    section = request.GET.get('section', 'pending-orders')
+    
+    context = {
+        'section': section,
+    }
+    
+    if section == 'pending-orders':
+        context['pending_orders'] = None
+        
+    if section == 'my-orders':
+        context['my_orders'] = None
+        
+    if section == 'total-spent':
+        context['total_spent'] = None
+        
+    if section == 'my-reviews':
+        context['my_reviews'] = None
+
+    return render(request, 'dashboard/customer_dashboard.html', context)
