@@ -1101,6 +1101,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 200px;
 }
 
+.max-w-3xl {
+  max-width: 48rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -2146,6 +2150,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(82 121 111 / 0.05);
 }
 
+.text-\[\#68736F\]\/70 {
+  color: rgb(104 115 111 / 0.7);
+}
+
 .underline {
   text-decoration: underline;
 }
@@ -2156,6 +2164,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .underline-offset-4 {
   text-underline-offset: 4px;
+}
+
+.underline-offset-2 {
+  text-underline-offset: 2px;
 }
 
 .antialiased {
