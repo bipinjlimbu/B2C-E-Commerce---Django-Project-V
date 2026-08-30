@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - DermaNest Botanical Skincare</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased selection:bg-[#52796F] selection:text-white">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
+        <div class="space-y-8">
+            
+            <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl shadow-lg overflow-hidden">
+                <div class="bg-[#52796F] p-6 sm:p-10 text-[#F7F4EE] relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-56 h-56 bg-[#C6A15B]/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="absolute -left-12 -top-12 w-48 h-48 bg-[#3F6259] rounded-full blur-2xl pointer-events-none"></div>
+                    
+                    <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                        <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-3xl bg-[#F7F4EE] border-4 border-[#C6A15B] shadow-xl overflow-hidden flex items-center justify-center text-[#52796F] shrink-0">
+                            {% if user.profile_picture %}
+                                <img src="{{ user.profile_picture.url }}" alt="{{ user.username }}" class="w-full h-full object-cover">
+                            {% else %}
+                                <i data-lucide="user" class="w-14 h-14 text-[#52796F]/60"></i>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-2.5 text-center sm:text-left flex-grow">
+                            <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#F7F4EE]/10 border border-[#F7F4EE]/20 text-[#C6A15B] text-xs font-bold uppercase tracking-widest">
+                                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                                <span>
+                                    {% if user.is_staff %} Administrator {% else %} Skincare Member {% endif %}
+                                </span>
+                            </div>
+                            
+                            <h1 class="text-2xl sm:text-3xl font-bold text-[#F7F4EE] tracking-tight">
+                                {% if user.first_name or user.last_name %}
+                                    {{ user.first_name }} {{ user.last_name }}
+                                {% else %}
+                                    {{ user.username|default:"Anonymous User" }}
+                                {% endif %}
+                            </h1>
+                            
+                            <p class="text-xs sm:text-sm text-[#F7F4EE]/85 font-medium flex items-center justify-center sm:justify-start gap-1">
+                                <i data-lucide="at-sign" class="w-3.5 h-3.5 text-[#C6A15B]"></i>
+                                <span>{{ user.username|default:"member" }}</span>
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center justify-center sm:justify-end gap-3 w-full sm:w-auto pt-2 sm:pt-0">
+                            <a href="/profile/edit/" class="px-4 py-2.5 bg-[#C6A15B] hover:bg-[#C6A15B]/90 text-[#26332F] font-bold rounded-xl transition-all text-xs flex items-center gap-2 shadow-sm cursor-pointer">
+                                <i data-lucide="edit-3" class="w-4 h-4"></i>
+                                <span>Edit Profile</span>
+                            </a>
+                            {% if not user.is_staff %}
+                                <button type="button" onclick="openDeleteProfileModal('/profile/delete/{{ user.id }}/')" class="px-4 py-2.5 bg-[#F7F4EE]/10 hover:bg-[#B85C62] text-[#F7F4EE] font-bold rounded-xl transition-all text-xs flex items-center gap-2 border border-[#F7F4EE]/20 cursor-pointer">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    <span>Delete</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 sm:p-6 bg-[#F7F4EE]/60 border-t border-[#DED9D0] flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-10 h-10 rounded-xl bg-[#52796F]/10 flex items-center justify-center text-[#52796F] shrink-0">
+                            <i data-lucide="sliders" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-bold text-[#26332F] uppercase tracking-wider">Account Overview</h3>
+                            <p class="text-[11px] text-[#68736F]">Manage your orders, saved skincare routines, and settings</p>
+                        </div>
+                    </div>
+
+                    {% if user.is_staff %}
+                        <a href="/dashboard/admin/" class="w-full sm:w-auto px-5 py-2.5 bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-sm">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            <span>Admin Dashboard</span>
+                        </a>
+                    {% else %}
+                        <a href="/dashboard/" class="w-full sm:w-auto px-5 py-2.5 bg-[#52796F] hover:bg-[#3F6259] text-[#F7F4EE] font-bold rounded-xl transition-all text-xs flex items-center justify-center gap-2 shadow-sm">
+                            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            <span>Go to Dashboard</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+                <div class="border-b border-[#DED9D0] pb-4 flex items-center justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-widest text-[#C6A15B]">Account Info</span>
+                        <h2 class="text-xl font-bold text-[#26332F] tracking-tight">Personal Details</h2>
+                    </div>
+                    <div class="w-9 h-9 rounded-xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F]">
+                        <i data-lucide="user-check" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-[#F7F4EE]/60 border border-[#DED9D0] p-4 rounded-2xl flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] text-[#52796F] shrink-0">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#68736F] block">First Name</span>
+                            <p class="text-sm font-semibold text-[#26332F] mt-0.5">{{ user.first_name|default:"—" }}</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#F7F4EE]/60 border border-[#DED9D0] p-4 rounded-2xl flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] text-[#52796F] shrink-0">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#68736F] block">Last Name</span>
+                            <p class="text-sm font-semibold text-[#26332F] mt-0.5">{{ user.last_name|default:"—" }}</p>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2 bg-[#F7F4EE]/60 border border-[#DED9D0] p-4 rounded-2xl flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] text-[#52796F] shrink-0">
+                            <i data-lucide="mail" class="w-4 h-4"></i>
+                        </div>
+                        <div class="truncate">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#68736F] block">Email Address</span>
+                            <p class="text-sm font-semibold text-[#26332F] mt-0.5 truncate">{{ user.email|default:"user@dermanest.com" }}</p>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2 bg-[#F7F4EE]/60 border border-[#DED9D0] p-4 rounded-2xl flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] text-[#52796F] shrink-0">
+                            <i data-lucide="phone" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#68736F] block">Phone Number</span>
+                            <p class="text-sm font-semibold text-[#26332F] mt-0.5">{{ user.phone|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+
+                    <div class="sm:col-span-2 bg-[#F7F4EE]/60 border border-[#DED9D0] p-4 rounded-2xl flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] text-[#52796F] shrink-0">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-[#68736F] block">Address</span>
+                            <p class="text-sm font-semibold text-[#26332F] mt-0.5 whitespace-pre-line leading-relaxed">{{ user.address|default:"Not provided" }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="deleteProfileModal" class="fixed inset-0 bg-[#26332F]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="deleteProfileModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-6 space-y-6 shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-[#B85C62]/10 border border-[#B85C62]/20 flex items-center justify-center text-[#B85C62] shrink-0">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                </div>
+                <div class="space-y-1 pt-0.5">
+                    <h3 class="text-base font-bold text-[#26332F]">Delete Account</h3>
+                    <p class="text-xs text-[#68736F] leading-relaxed">
+                        Are you sure you want to delete your profile? This action is permanent and cannot be undone.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2 border-t border-[#DED9D0]">
+                <button type="button" onclick="closeDeleteProfileModal()" class="px-4 py-2.5 bg-[#F7F4EE] hover:bg-[#DED9D0]/50 border border-[#DED9D0] text-[#68736F] hover:text-[#26332F] font-bold text-xs rounded-xl transition-all cursor-pointer">
+                    Cancel
+                </button>
+                <a id="confirmDeleteProfileBtn" href="#" class="px-5 py-2.5 bg-[#B85C62] hover:bg-[#B85C62]/90 text-[#F7F4EE] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+
+        const deleteProfileModal = document.getElementById('deleteProfileModal');
+        const deleteProfileModalCard = document.getElementById('deleteProfileModalCard');
+        const confirmDeleteProfileBtn = document.getElementById('confirmDeleteProfileBtn');
+
+        function openDeleteProfileModal(deleteUrl) {
+            confirmDeleteProfileBtn.setAttribute('href', deleteUrl);
+            document.body.style.overflow = 'hidden';
+            
+            deleteProfileModal.classList.remove('opacity-0', 'pointer-events-none');
+            deleteProfileModalCard.classList.remove('scale-95');
+            deleteProfileModalCard.classList.add('scale-100');
+        }
+
+        function closeDeleteProfileModal() {
+            deleteProfileModal.classList.add('opacity-0', 'pointer-events-none');
+            deleteProfileModalCard.classList.remove('scale-100');
+            deleteProfileModalCard.classList.add('scale-95');
+            document.body.style.overflow = '';
+        }
+
+        if (deleteProfileModal) {
+            deleteProfileModal.addEventListener('click', function(e) {
+                if (e.target === deleteProfileModal) {
+                    closeDeleteProfileModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !deleteProfileModal.classList.contains('pointer-events-none')) {
+                    closeDeleteProfileModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
