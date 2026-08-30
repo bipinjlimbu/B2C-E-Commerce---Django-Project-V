@@ -33,3 +33,7 @@ def admin_dashboard_view(request):
         context['logs'] = None
     
     return render(request, 'dashboard/admin_dashboard.html', context)
+
+@login_required
+def customer_dashboard_view(request):
+    return render(request, 'dashboard/customer_dashboard.html', {'user': request.user})
