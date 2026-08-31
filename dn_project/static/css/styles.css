@@ -416,7 +416,7 @@ Ensure the default browser behavior of the `hidden` attribute.
   display: none;
 }
 
-.translate-x-\[120\%\], .-translate-y-1\/2, .scale-95, .scale-100, .transform, .hover\:scale-105, .active\:scale-95, .active\:scale-\[0\.98\], .active\:scale-\[0\.99\], .group-hover\:translate-x-1, .group-hover\:scale-105, .group-hover\:scale-110, .peer-checked\:after\:translate-x-full::after {
+.translate-x-\[120\%\], .-translate-y-1\/2, .rotate-180, .scale-95, .scale-100, .transform, .hover\:scale-105, .active\:scale-95, .active\:scale-\[0\.98\], .active\:scale-\[0\.99\], .group-hover\:translate-x-1, .group-hover\:scale-105, .group-hover\:scale-110, .peer-checked\:after\:translate-x-full::after {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
   --tw-rotate: 0;
@@ -1187,6 +1187,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   transform: var(--tw-transform);
 }
 
+.rotate-180 {
+  --tw-rotate: 180deg;
+  transform: var(--tw-transform);
+}
+
 .scale-95 {
   --tw-scale-x: .95;
   --tw-scale-y: .95;
@@ -1601,6 +1606,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(222 217 208 / 0.5);
 }
 
+.border-\[\#B85C62\] {
+  --tw-border-opacity: 1;
+  border-color: rgb(184 92 98 / var(--tw-border-opacity));
+}
+
 .bg-\[\#F7F4EE\] {
   --tw-bg-opacity: 1;
   background-color: rgb(247 244 238 / var(--tw-bg-opacity));
@@ -1751,6 +1761,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .bg-\[\#26332F\]\/50 {
   background-color: rgb(38 51 47 / 0.5);
+}
+
+.bg-transparent {
+  background-color: transparent;
 }
 
 .bg-gradient-to-r {
@@ -2077,6 +2091,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pr-12 {
   padding-right: 3rem;
+}
+
+.pt-5 {
+  padding-top: 1.25rem;
 }
 
 .text-left {
@@ -2706,6 +2724,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   content: var(--tw-content);
 }
 
+.focus-within\:border-\[\#52796F\]:focus-within {
+  --tw-border-opacity: 1;
+  border-color: rgb(82 121 111 / var(--tw-border-opacity));
+}
+
+.focus-within\:bg-\[\#FFFFFF\]:focus-within {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -3060,12 +3088,20 @@ Ensure the default browser behavior of the `hidden` attribute.
     height: 8rem;
   }
 
+  .sm\:h-28 {
+    height: 7rem;
+  }
+
   .sm\:w-auto {
     width: auto;
   }
 
   .sm\:w-32 {
     width: 8rem;
+  }
+
+  .sm\:w-28 {
+    width: 7rem;
   }
 
   .sm\:min-w-\[170px\] {
@@ -3154,6 +3190,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .sm\:p-16 {
     padding: 4rem;
+  }
+
+  .sm\:p-5 {
+    padding: 1.25rem;
   }
 
   .sm\:py-20 {
@@ -3256,6 +3296,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .lg\:top-8 {
     top: 2rem;
+  }
+
+  .lg\:top-24 {
+    top: 6rem;
   }
 
   .lg\:col-span-5 {
@@ -3380,6 +3424,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 @media (min-width: 1280px) {
+  .xl\:col-span-8 {
+    grid-column: span 8 / span 8;
+  }
+
+  .xl\:col-span-4 {
+    grid-column: span 4 / span 4;
+  }
+
   .xl\:w-auto {
     width: auto;
   }

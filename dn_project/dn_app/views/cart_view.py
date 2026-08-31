@@ -27,3 +27,7 @@ def add_to_cart_view(request, product_id):
         messages.success(request, 'Product added to the cart.')
         
     return redirect(f'/products/{product_id}/')
+
+@login_required
+def cart_view(request):
+    return render(request, 'main/cart_page.html')

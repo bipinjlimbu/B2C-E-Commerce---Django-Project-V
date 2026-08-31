@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-[#F7F4EE] text-[#68736F] font-sans min-h-screen flex flex-col antialiased selection:bg-[#52796F]/10 selection:text-[#52796F]">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14 space-y-10">
+        
+        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-6 sm:p-10 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative overflow-hidden w-full">
+            <div class="absolute -right-12 -top-12 w-48 h-48 bg-[#C98F8F]/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="space-y-3 relative z-10">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F7F4EE] border border-[#DED9D0] text-[#C6A15B] text-xs font-semibold tracking-wide">
+                    <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-[#C6A15B]"></i>
+                    <span class="text-[#26332F]">Your Selection</span>
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-serif font-bold text-[#26332F] tracking-tight">
+                    Shopping Cart
+                </h1>
+                <p class="text-sm text-[#68736F] max-w-lg leading-relaxed">
+                    Review your chosen skincare essentials and proceed to simple, secure checkout.
+                </p>
+            </div>
+            
+            {% if cart_items %}
+            <a href="/products/" class="relative z-10 inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-sm hover:shadow whitespace-nowrap">
+                <i data-lucide="sparkles" class="w-4 h-4 text-[#C6A15B]"></i>
+                <span>Add More Products</span>
+            </a>
+            {% endif %}
+        </div>
+
+        {% if cart_items %}
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div class="lg:col-span-7 xl:col-span-8 space-y-4">
+                    {% for item in cart_items %}
+                        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm hover:border-[#52796F]/40 transition-all duration-300 group">
+                            
+                            <div class="flex flex-col sm:flex-row items-center gap-5 w-full sm:w-auto">
+                                <div class="w-24 h-24 sm:w-28 sm:h-28 bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl overflow-hidden flex items-center justify-center p-2 shrink-0 relative">
+                                    {% if item.product.product_image %}
+                                        <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-500 ease-out">
+                                    {% else %}
+                                        <i data-lucide="sparkles" class="w-8 h-8 text-[#52796F]/40"></i>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="space-y-2 text-center sm:text-left flex-1">
+                                    <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                                        <span class="text-[10px] font-semibold text-[#52796F] bg-[#F7F4EE] border border-[#DED9D0] px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                            {{ item.product.get_category_display }}
+                                        </span>
+                                        <span class="text-[10px] font-semibold text-[#26332F] bg-[#C98F8F]/15 border border-[#C98F8F]/30 px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                            {{ item.product.get_condition_display }}
+                                        </span>
+                                    </div>
+                                    <h3 class="font-serif font-semibold text-[#26332F] text-lg leading-snug line-clamp-1">
+                                        {{ item.product.name }}
+                                    </h3>
+                                    <p class="text-xs font-semibold text-[#C6A15B]">
+                                        Rs. {{ item.product.price|floatformat:2 }} <span class="text-[10px] font-normal text-[#68736F]">/ item</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto border-t sm:border-t-0 border-[#DED9D0]/60 pt-4 sm:pt-0">
+                                <div class="flex items-center border border-[#DED9D0] rounded-2xl overflow-hidden bg-[#F7F4EE]">
+                                    <a href="/cart/decrease/{{ item.product.id }}/" class="w-9 h-9 flex items-center justify-center text-[#68736F] hover:text-[#52796F] hover:bg-[#FFFFFF] transition-colors">
+                                        <i data-lucide="minus" class="w-3.5 h-3.5"></i>
+                                    </a>
+                                    <span class="w-10 text-center font-bold text-xs text-[#26332F]">
+                                        {{ item.quantity }}
+                                    </span>
+                                    <a href="/cart/increase/{{ item.product.id }}/" class="w-9 h-9 flex items-center justify-center text-[#68736F] hover:text-[#52796F] hover:bg-[#FFFFFF] transition-colors">
+                                        <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                                    </a>
+                                </div>
+
+                                <div class="flex items-center gap-5">
+                                    <div class="text-right">
+                                        <span class="text-[10px] font-medium text-[#68736F] block uppercase tracking-wider">Subtotal</span>
+                                        <span class="text-sm font-bold text-[#26332F]">Rs. {{ item.total_price|floatformat:2 }}</span>
+                                    </div>
+                                    <button type="button" onclick="openRemoveCartModal('/cart/remove/{{ item.product.id }}/', '{{ item.product.name|escapejs }}')" class="w-10 h-10 bg-[#F7F4EE] hover:bg-[#B85C62] border border-[#DED9D0] hover:border-[#B85C62] text-[#68736F] hover:text-[#FFFFFF] rounded-2xl transition-all flex items-center justify-center cursor-pointer shadow-xs" title="Remove item">
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-4 sm:p-5 flex items-center gap-3.5 text-xs text-[#68736F] shadow-sm">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-[#5F8A70] shrink-0"></i>
+                        <span>All skincare products are authentic, dermatologically tested, and packaged with care before delivery.</span>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 xl:col-span-4 bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-6 sm:p-8 space-y-6 lg:sticky lg:top-24 shadow-sm">
+                    <div class="border-b border-[#DED9D0]/80 pb-4">
+                        <h2 class="text-lg font-serif font-bold text-[#26332F] flex items-center gap-2.5">
+                            <i data-lucide="receipt" class="w-4 h-4 text-[#C6A15B]"></i>
+                            Order Summary
+                        </h2>
+                    </div>
+                    
+                    <div class="space-y-3.5">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-[#68736F]">Subtotal</span>
+                            <span class="font-bold text-[#26332F]">Rs. {{ total_price|floatformat:2 }}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-[#68736F]">Delivery</span>
+                            <span class="font-semibold text-[#5F8A70] bg-[#5F8A70]/10 border border-[#5F8A70]/20 px-2.5 py-0.5 rounded-full text-[11px]">FREE</span>
+                        </div>
+                        <div class="border-t border-[#DED9D0]/80 pt-4 flex justify-between items-baseline">
+                            <span class="text-sm font-serif font-bold text-[#26332F]">Total Amount</span>
+                            <span class="text-2xl font-bold text-[#26332F]">Rs. {{ total_price|floatformat:2 }}</span>
+                        </div>
+                    </div>
+
+                    <form method="POST" action="/payment/initiate/" class="space-y-4 pt-2">
+                        {% csrf_token %}
+                        <input type="hidden" name="total_amount" value="{{ total_price }}">
+                        <input type="hidden" name="payment_method" id="id_payment_method" value="esewa">
+                        
+                        <div id="checkout_fields" class="hidden space-y-4 border-t border-[#DED9D0]/80 pt-5 transition-all duration-300">
+                            <div class="space-y-2 relative">
+                                <label class="text-xs font-semibold text-[#26332F] block">Payment Method</label>
+                                
+                                <button type="button" id="custom_dropdown_btn" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl p-3.5 flex items-center justify-between text-xs font-semibold text-[#26332F] hover:border-[#52796F] focus:outline-none transition-colors">
+                                    <span id="selected_option_text" class="flex items-center gap-2">
+                                        <i data-lucide="wallet" class="w-4 h-4 text-[#C6A15B]"></i>
+                                        eSewa Wallet
+                                    </span>
+                                    <i data-lucide="chevron-down" id="dropdown_arrow" class="w-4 h-4 text-[#68736F] transition-transform duration-200"></i>
+                                </button>
+
+                                <div id="custom_dropdown_menu" class="hidden absolute left-0 right-0 mt-1.5 bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl overflow-hidden shadow-xl z-50 divide-y divide-[#DED9D0]/60">
+                                    <div data-value="esewa" class="dropdown-item p-3.5 text-xs font-semibold text-[#26332F] hover:bg-[#F7F4EE] hover:text-[#52796F] cursor-pointer transition-colors flex items-center gap-2.5">
+                                        <i data-lucide="wallet" class="w-4 h-4 text-[#C6A15B]"></i>
+                                        eSewa Wallet
+                                    </div>
+                                    <div data-value="cod" class="dropdown-item p-3.5 text-xs font-semibold text-[#26332F] hover:bg-[#F7F4EE] hover:text-[#52796F] cursor-pointer transition-colors flex items-center gap-2.5">
+                                        <i data-lucide="banknote" class="w-4 h-4 text-[#5F8A70]"></i>
+                                        Cash On Delivery (COD)
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="shipping_address" class="text-xs font-semibold text-[#26332F] block">Shipping Address</label>
+                                <div id="address_container" class="bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl p-3.5 focus-within:border-[#52796F] focus-within:bg-[#FFFFFF] transition-all duration-200">
+                                    <input type="text" id="shipping_address" name="shipping_address" required placeholder="Street, City, Area / Location" class="w-full bg-transparent text-xs font-medium text-[#26332F] focus:outline-none placeholder-[#68736F]/50">
+                                </div>
+                                <p id="client_address_error" class="text-xs font-medium text-[#B85C62] mt-1 hidden flex items-center gap-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    Please enter your delivery address.
+                                </p>
+                            </div>
+                        </div>
+
+                        <button type="button" id="action_button" class="w-full bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] font-semibold py-4 px-6 rounded-2xl text-xs uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow cursor-pointer">
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            <span id="button_text">Proceed to Checkout</span>
+                        </button>
+                        
+                        <a href="/products/" class="w-full bg-[#F7F4EE] hover:bg-[#DED9D0]/50 text-[#26332F] font-semibold py-3.5 px-6 rounded-2xl text-xs transition-all duration-300 flex items-center justify-center gap-2 border border-[#DED9D0]">
+                            Continue Shopping
+                        </a>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-10 sm:p-16 text-center shadow-sm w-full flex flex-col items-center justify-center space-y-6">
+                <div class="w-24 h-24 rounded-full bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#C6A15B]">
+                    <i data-lucide="shopping-bag" class="w-10 h-10"></i>
+                </div>
+                <div class="space-y-2 max-w-md">
+                    <h3 class="text-2xl font-serif font-bold text-[#26332F]">Your Cart is Empty</h3>
+                    <p class="text-sm text-[#68736F] leading-relaxed">
+                        You haven't added any skincare products yet. Discover our natural essentials and treat your skin today!
+                    </p>
+                </div>
+                <a href="/products/" class="inline-flex items-center justify-center gap-2.5 bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] font-semibold px-8 py-4 rounded-2xl text-xs uppercase tracking-wider transition-all duration-300 shadow-sm hover:shadow">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-[#C6A15B]"></i>
+                    <span>Shop Skincare</span>
+                </a>
+            </div>
+        {% endif %}
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <div id="removeCartModal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#26332F]/50 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 px-4">
+        <div id="removeCartModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-8 shadow-2xl transform scale-95 transition-all duration-300 space-y-6 text-center">
+            
+            <div class="w-16 h-16 bg-[#B85C62]/10 border border-[#B85C62]/20 rounded-2xl flex items-center justify-center mx-auto text-[#B85C62]">
+                <i data-lucide="trash-2" class="w-7 h-7"></i>
+            </div>
+
+            <div class="space-y-2">
+                <h3 class="text-xl font-serif font-bold text-[#26332F] tracking-tight">Remove Item?</h3>
+                <p class="text-xs text-[#68736F] leading-relaxed">
+                    Are you sure you want to remove <span id="removeCartProductName" class="font-bold text-[#26332F]">this item</span> from your cart?
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button type="button" onclick="closeRemoveCartModal()" class="bg-[#F7F4EE] hover:bg-[#DED9D0]/50 text-[#26332F] font-semibold py-3.5 px-4 rounded-2xl border border-[#DED9D0] transition-all text-xs uppercase tracking-wider cursor-pointer">
+                    Cancel
+                </button>
+                <a id="confirmRemoveCartBtn" href="#" class="bg-[#B85C62] hover:bg-[#B85C62]/90 text-[#FFFFFF] font-semibold py-3.5 px-4 rounded-2xl shadow-sm transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 cursor-pointer">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>Remove</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+
+        const actionButton = document.getElementById('action_button');
+        const checkoutFields = document.getElementById('checkout_fields');
+        const buttonText = document.getElementById('button_text');
+        const shippingInput = document.getElementById('shipping_address');
+        const addressContainer = document.getElementById('address_container');
+        const clientAddressError = document.getElementById('client_address_error');
+        
+        const dropdownBtn = document.getElementById('custom_dropdown_btn');
+        const dropdownMenu = document.getElementById('custom_dropdown_menu');
+        const dropdownArrow = document.getElementById('dropdown_arrow');
+        const selectedText = document.getElementById('selected_option_text');
+        const hiddenPaymentInput = document.getElementById('id_payment_method');
+        const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+        const removeCartModal = document.getElementById('removeCartModal');
+        const removeCartModalCard = document.getElementById('removeCartModalCard');
+        const confirmRemoveCartBtn = document.getElementById('confirmRemoveCartBtn');
+        const removeCartProductName = document.getElementById('removeCartProductName');
+
+        function openRemoveCartModal(removeUrl, productName) {
+            if (!removeCartModal || !removeCartModalCard) return;
+            
+            confirmRemoveCartBtn.setAttribute('href', removeUrl);
+            removeCartProductName.textContent = productName ? `"${productName}"` : 'this item';
+
+            removeCartModal.classList.remove('opacity-0', 'pointer-events-none');
+            removeCartModal.classList.add('opacity-100');
+            
+            removeCartModalCard.classList.remove('scale-95');
+            removeCartModalCard.classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRemoveCartModal() {
+            if (!removeCartModal || !removeCartModalCard) return;
+
+            removeCartModal.classList.remove('opacity-100');
+            removeCartModal.classList.add('opacity-0', 'pointer-events-none');
+            
+            removeCartModalCard.classList.remove('scale-100');
+            removeCartModalCard.classList.add('scale-95');
+            document.body.style.overflow = '';
+        }
+
+        if (removeCartModal) {
+            removeCartModal.addEventListener('click', function(event) {
+                if (event.target === removeCartModal) {
+                    closeRemoveCartModal();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && removeCartModal && !removeCartModal.classList.contains('pointer-events-none')) {
+                closeRemoveCartModal();
+            }
+        });
+
+        if (dropdownBtn) {
+            dropdownBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('hidden');
+                dropdownArrow.classList.toggle('rotate-180');
+            });
+        }
+
+        dropdownItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const val = this.getAttribute('data-value');
+                const txt = this.textContent.trim();
+                
+                hiddenPaymentInput.value = val;
+                selectedText.textContent = txt;
+                
+                dropdownMenu.classList.add('hidden');
+                dropdownArrow.classList.remove('rotate-180');
+            });
+        });
+
+        document.addEventListener('click', function() {
+            if (dropdownMenu) {
+                dropdownMenu.classList.add('hidden');
+                dropdownArrow.classList.remove('rotate-180');
+            }
+        });
+
+        if (actionButton) {
+            actionButton.addEventListener('click', function(e) {
+                if (checkoutFields.classList.contains('hidden')) {
+                    checkoutFields.classList.remove('hidden');
+                    buttonText.textContent = "Confirm Order";
+                } else {
+                    if (shippingInput.value.trim() === "") {
+                        shippingInput.focus();
+                        addressContainer.classList.remove('border-[#DED9D0]');
+                        addressContainer.classList.add('border-[#B85C62]');
+                        clientAddressError.classList.remove('hidden');
+                    } else {
+                        this.closest('form').submit();
+                    }
+                }
+            });
+        }
+
+        if (shippingInput) {
+            shippingInput.addEventListener('input', function() {
+                if (this.value.trim() !== "") {
+                    addressContainer.classList.remove('border-[#B85C62]');
+                    addressContainer.classList.add('border-[#DED9D0]');
+                    clientAddressError.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
