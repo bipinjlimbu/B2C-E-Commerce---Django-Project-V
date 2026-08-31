@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from ..models import User, Brand, Product
+from ..models import User, Brand, Product, Order, OrderItem
 
 @login_required
 def admin_dashboard_view(request):
@@ -48,7 +48,7 @@ def customer_dashboard_view(request):
     }
     
     if section == 'pending-orders':
-        context['pending_orders'] = None
+        context['pending_orders'] = Order.objects.filter(customer=request.user).exclude(status__in=['completed', 'cancelled']).order_by('-created_at')
         
     if section == 'my-orders':
         context['my_orders'] = None
