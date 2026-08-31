@@ -132,3 +132,12 @@ def edit_product_view(request, product_id):
         return redirect('/dashboard/admin/?section=product-management')
     
     return render(request, 'main/edit_product_page.html', {'product': product, 'brands': brands})
+
+@login_required
+def product_toggle_status_view(request, product_id):
+    product = Product.objects.get(id=product_id)
+    product.is_active = not product.is_active
+    product.save()
+    status = 'activated' if product.is_active else 'deactivated'
+    messages.success(request, f'Product {status} successfully.')
+    return redirect('/dashboard/admin/?section=product-management')
