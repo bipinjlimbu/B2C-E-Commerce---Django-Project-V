@@ -5,6 +5,10 @@ from ..models import Product, Wishlist
 
 @login_required
 def wishlist_view(request):
+    if not request.user.is_authenticated and request.user.is_superuser:
+        messages.error(request, 'You are not authorized to view the wishlist.')
+        return redirect('/')
+    
     wishlist_items = Wishlist.objects.filter(customer=request.user).order_by('-added_at')
     print("Wishlist Items:", wishlist_items)
     return render(request, 'main/wishlist_page.html', {'wishlist_items': wishlist_items})
@@ -31,3 +35,23 @@ def wishlist_toggle_view(request, product_id):
         
     return redirect(f'/products/{product_id}/')
 
+@login_required
+def remove_from_wishlist_view(request, product_id):
+    if not request.user.is_authenticated and request.user.is_superuser:
+        messages.error(request, 'You are not authorized to remove products from the wishlist.')
+        return redirect('/')
+    
+    product = Product.objects.get(id=product_id)
+    
+    if not product:
+        messages.error(request, 'Product does not exist.')
+        return redirect('/wishlist/')
+    
+    if Wishlist.objects.filter(customer=request.user, product=product).exists():
+        wishlist_item = Wishlist.objects.get(customer=request.user, product=product)
+        wishlist_item.delete()
+        messages.success(request, 'Product removed from wishlist.')
+    else:
+        messages.error(request, 'Product is not in your wishlist.')
+        
+    return redirect('/wishlist/')
