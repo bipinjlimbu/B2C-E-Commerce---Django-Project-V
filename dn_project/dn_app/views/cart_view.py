@@ -30,4 +30,13 @@ def add_to_cart_view(request, product_id):
 
 @login_required
 def cart_view(request):
-    return render(request, 'main/cart_page.html')
+    if not request.user.is_authenticated and request.user.is_superuser:
+        messages.error(request, 'You are not authorized to view the cart.')
+        return redirect('/')
+    
+    cart, created = Cart.objects.get_or_create(customer=request.user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+
+    return render(request, 'main/cart_page.html', {'cart_items': cart_items, 'total_price': total_price})
