@@ -67,3 +67,7 @@ def add_product_view(request):
         return redirect('/dashboard/admin/?section=product-management')
     
     return render(request, 'main/add_product_page.html', {'brands': brands})
+
+@login_required
+def edit_product_view(request, product_id):
+    return render(request, 'main/edit_product_page.html', {'product_id': product_id})

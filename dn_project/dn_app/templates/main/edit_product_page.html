@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F]">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto space-y-8">
+            
+            <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 text-[#52796F]/5 pointer-events-none">
+                    <i data-lucide="sparkles" class="w-40 h-40"></i>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-[#52796F] text-[#C6A15B] flex items-center justify-center shrink-0 shadow-sm">
+                            <i data-lucide="pencil" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <span class="text-[11px] font-bold text-[#52796F] uppercase tracking-wider block">Store Inventory</span>
+                            <h1 class="text-2xl font-black text-[#26332F] tracking-tight">Edit Product</h1>
+                        </div>
+                    </div>
+
+                    <a href="/dashboard/admin/?section=product-management" class="inline-flex items-center gap-2 text-xs font-bold text-[#52796F] bg-[#F7F4EE] hover:bg-[#DED9D0]/50 border border-[#DED9D0] px-4 py-2.5 rounded-xl transition-all w-fit">
+                        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                        <span>Back to Products</span>
+                    </a>
+                </div>
+            </div>
+
+            <form method="POST" enctype="multipart/form-data" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 sm:p-8 shadow-sm space-y-8">
+                {% csrf_token %}
+
+                <div>
+                    <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
+                        <i data-lucide="package" class="w-5 h-5 text-[#52796F]"></i>
+                        Basic Details
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2 space-y-1.5">
+                            <label for="id_name" class="text-xs font-bold text-[#26332F] block">Product Name <span class="text-[#B85C62]">*</span></label>
+                            <input type="text" id="id_name" name="name" value="{% if data %}{{ data.name }}{% else %}{{ product.name }}{% endif %}" maxlength="255" placeholder="e.g. Gentle Hydrating Cleanser" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.name %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.name }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_brand" class="text-xs font-bold text-[#26332F] block">Brand <span class="text-[#B85C62]">*</span></label>
+                            <select id="id_brand" name="brand" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
+                                <option value="" disabled class="text-[#68736F]/50">Select Brand</option>
+                                {% for brand in brands %}
+                                    <option value="{{ brand.id }}" {% if data %}{% if data.brand == brand.id|stringformat:"s" %}selected{% endif %}{% else %}{% if product.brand.id == brand.id %}selected{% endif %}{% endif %}>{{ brand.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if errors.brand %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.brand }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_category" class="text-xs font-bold text-[#26332F] block">Category <span class="text-[#B85C62]">*</span></label>
+                            <select id="id_category" name="category" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
+                                <option value="" disabled class="text-[#68736F]/50">Select Category</option>
+                                <option value="cleanser" {% if data %}{% if data.category == 'cleanser' %}selected{% endif %}{% else %}{% if product.category == 'cleanser' %}selected{% endif %}{% endif %}>Cleansers</option>
+                                <option value="toner" {% if data %}{% if data.category == 'toner' %}selected{% endif %}{% else %}{% if product.category == 'toner' %}selected{% endif %}{% endif %}>Toners &amp; Essences</option>
+                                <option value="serum" {% if data %}{% if data.category == 'serum' %}selected{% endif %}{% else %}{% if product.category == 'serum' %}selected{% endif %}{% endif %}>Serums &amp; Ampoules</option>
+                                <option value="moisturizer" {% if data %}{% if data.category == 'moisturizer' %}selected{% endif %}{% else %}{% if product.category == 'moisturizer' %}selected{% endif %}{% endif %}>Moisturizers</option>
+                                <option value="sunscreen" {% if data %}{% if data.category == 'sunscreen' %}selected{% endif %}{% else %}{% if product.category == 'sunscreen' %}selected{% endif %}{% endif %}>Sunscreens</option>
+                                <option value="mask" {% if data %}{% if data.category == 'mask' %}selected{% endif %}{% else %}{% if product.category == 'mask' %}selected{% endif %}{% endif %}>Masks &amp; Exfoliators</option>
+                                <option value="eye_care" {% if data %}{% if data.category == 'eye_care' %}selected{% endif %}{% else %}{% if product.category == 'eye_care' %}selected{% endif %}{% endif %}>Eye Care</option>
+                                <option value="lip_care" {% if data %}{% if data.category == 'lip_care' %}selected{% endif %}{% else %}{% if product.category == 'lip_care' %}selected{% endif %}{% endif %}>Lip Care</option>
+                            </select>
+                            {% if errors.category %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.category }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_skin_type" class="text-xs font-bold text-[#26332F] block">Skin Type</label>
+                            <select id="id_skin_type" name="skin_type" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
+                                <option value="all" {% if data %}{% if data.skin_type == 'all' %}selected{% endif %}{% else %}{% if product.skin_type == 'all' %}selected{% endif %}{% endif %}>All Skin Types</option>
+                                <option value="dry" {% if data %}{% if data.skin_type == 'dry' %}selected{% endif %}{% else %}{% if product.skin_type == 'dry' %}selected{% endif %}{% endif %}>Dry</option>
+                                <option value="oily" {% if data %}{% if data.skin_type == 'oily' %}selected{% endif %}{% else %}{% if product.skin_type == 'oily' %}selected{% endif %}{% endif %}>Oily</option>
+                                <option value="combination" {% if data %}{% if data.skin_type == 'combination' %}selected{% endif %}{% else %}{% if product.skin_type == 'combination' %}selected{% endif %}{% endif %}>Combination</option>
+                                <option value="sensitive" {% if data %}{% if data.skin_type == 'sensitive' %}selected{% endif %}{% else %}{% if product.skin_type == 'sensitive' %}selected{% endif %}{% endif %}>Sensitive</option>
+                            </select>
+                            {% if errors.skin_type %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.skin_type }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_volume" class="text-xs font-bold text-[#26332F] block">Volume / Size</label>
+                            <input type="text" id="id_volume" name="volume" value="{% if data %}{{ data.volume }}{% else %}{{ product.volume }}{% endif %}" maxlength="50" placeholder="e.g. 50ml, 100ml, 1.7 fl oz" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.volume %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.volume }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="md:col-span-2 space-y-1.5">
+                            <label for="id_sku" class="text-xs font-bold text-[#26332F] block">Product SKU / Code</label>
+                            <input type="text" id="id_sku" name="sku" value="{% if data %}{{ data.sku }}{% else %}{{ product.sku|default:'' }}{% endif %}" maxlength="100" placeholder="e.g. DN-CLR-001" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.sku %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.sku }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
+                        <i data-lucide="tag" class="w-5 h-5 text-[#52796F]"></i>
+                        Pricing &amp; Stock
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-1.5">
+                            <label for="id_price" class="text-xs font-bold text-[#26332F] block">Price <span class="text-[#B85C62]">*</span></label>
+                            <div class="relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#52796F]">Rs.</span>
+                                <input type="number" id="id_price" name="price" step="0.01" min="0" value="{% if data %}{{ data.price }}{% else %}{{ product.price|stringformat:'.2f' }}{% endif %}" placeholder="0.00" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl pl-12 pr-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            </div>
+                            {% if errors.price %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.price }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_stock" class="text-xs font-bold text-[#26332F] block">Available Stock <span class="text-[#B85C62]">*</span></label>
+                            <input type="number" id="id_stock" name="stock" min="0" value="{% if data %}{{ data.stock }}{% else %}{{ product.stock }}{% endif %}" placeholder="0" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.stock %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.stock }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
+                        <i data-lucide="file-text" class="w-5 h-5 text-[#52796F]"></i>
+                        Description &amp; Ingredients
+                    </h2>
+
+                    <div class="space-y-6">
+                        <div class="space-y-1.5">
+                            <label for="id_description" class="text-xs font-bold text-[#26332F] block">Description <span class="text-[#B85C62]">*</span></label>
+                            <textarea id="id_description" name="description" rows="4" placeholder="Enter product overview, primary skin benefits, and directions for daily use..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-4 text-xs font-medium text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all resize-none">{% if data %}{{ data.description }}{% else %}{{ product.description }}{% endif %}</textarea>
+                            {% if errors.description %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.description }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label for="id_ingredients" class="text-xs font-bold text-[#26332F] block">Ingredients</label>
+                            <textarea id="id_ingredients" name="ingredients" rows="3" placeholder="e.g. Aqua, Glycerin, Centella Asiatica Extract, Niacinamide, Hyaluronic Acid..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-4 text-xs font-medium text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all resize-none">{% if data %}{{ data.ingredients }}{% else %}{{ product.ingredients }}{% endif %}</textarea>
+                            {% if errors.ingredients %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.ingredients }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-[#26332F] block">Product Image</label>
+                            
+                            {% if product.product_image %}
+                                <div class="mb-3 flex items-center gap-4 p-3 bg-[#F7F4EE] border border-[#DED9D0] rounded-xl">
+                                    <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="w-14 h-14 object-cover rounded-lg border border-[#DED9D0] bg-white">
+                                    <div class="text-xs">
+                                        <p class="font-bold text-[#26332F]">Current Image</p>
+                                        <p class="text-[#68736F] text-[11px]">Upload a new image below to replace this file.</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <div class="bg-[#F7F4EE] border-2 border-dashed border-[#DED9D0] hover:border-[#52796F] rounded-2xl p-6 text-center transition-all group">
+                                <div class="w-12 h-12 rounded-2xl bg-[#FFFFFF] border border-[#DED9D0] flex items-center justify-center text-[#52796F] mx-auto mb-3 shadow-sm group-hover:scale-105 transition-transform">
+                                    <i data-lucide="image" class="w-6 h-6"></i>
+                                </div>
+                                <div class="space-y-1">
+                                    <div class="flex text-xs text-[#68736F] justify-center items-center gap-1">
+                                        <label for="id_product_image" class="cursor-pointer font-bold text-[#52796F] hover:text-[#3F6259] underline underline-offset-2">
+                                            <span>Upload replacement image</span>
+                                            <input id="id_product_image" name="product_image" type="file" accept="image/*" class="sr-only">
+                                        </label>
+                                        <span>or drag and drop</span>
+                                    </div>
+                                    <p class="text-[11px] text-[#68736F]/70">PNG, JPG or WEBP up to 10MB</p>
+                                </div>
+                            </div>
+                            {% if errors.product_image %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.product_image }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#F7F4EE] border border-[#DED9D0] p-4 rounded-xl flex items-center justify-between">
+                    <div>
+                        <label for="id_is_active" class="text-xs font-bold text-[#26332F] block">Show on Storefront</label>
+                        <p class="text-[11px] text-[#68736F]">Make this product visible to customers immediately after saving</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer select-none">
+                        <input type="checkbox" id="id_is_active" name="is_active" value="true" {% if data %}{% if data.is_active %}checked{% endif %}{% else %}{% if product.is_active %}checked{% endif %}{% endif %} class="sr-only peer">
+                        <div class="w-11 h-6 bg-[#DED9D0] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#DED9D0] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#52796F]"></div>
+                    </label>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-[#DED9D0]">
+                    <a href="/dashboard/admin/?section=product-management" class="w-full sm:w-auto bg-[#F7F4EE] hover:bg-[#DED9D0]/50 text-[#68736F] font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2 text-xs border border-[#DED9D0]">
+                        Cancel
+                    </a>
+                    <button type="submit" class="w-full sm:w-auto bg-[#52796F] hover:bg-[#3F6259] text-white font-bold py-3 px-8 rounded-xl transition-all flex items-center justify-center gap-2 text-xs shadow-sm">
+                        <i data-lucide="check-circle" class="w-4 h-4 text-[#C6A15B]"></i>
+                        <span>Save Changes</span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+        
+        document.getElementById('id_product_image').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            if (fileName) {
+                const labelContainer = e.target.closest('.space-y-1');
+                const textElement = labelContainer.querySelector('span');
+                if (textElement) {
+                    textElement.textContent = fileName;
+                    textElement.className = "text-[#5F8A70] font-bold text-xs";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
