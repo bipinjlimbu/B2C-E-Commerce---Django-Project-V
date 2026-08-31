@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-[#F7F4EE] text-[#68736F] font-sans min-h-screen flex items-center justify-center p-4 antialiased selection:bg-[#52796F]/10 selection:text-[#52796F]">
+
+    <div class="max-w-md w-full bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl p-8 sm:p-10 shadow-sm text-center relative overflow-hidden">
+        
+        <div class="absolute -top-16 -right-16 w-40 h-40 bg-[#C6A15B]/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-[#52796F]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+            <div class="absolute inset-0 border-4 border-[#DED9D0] rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-[#52796F] border-t-transparent rounded-full animate-spin"></div>
+            <div class="w-12 h-12 bg-[#F7F4EE] rounded-full border border-[#DED9D0] flex items-center justify-center text-[#C6A15B] shadow-inner">
+                <i data-lucide="shield-check" class="w-6 h-6 text-[#C6A15B]"></i>
+            </div>
+        </div>
+
+        <div class="space-y-2 mb-6">
+            <h1 class="text-2xl font-serif font-bold text-[#26332F] tracking-tight">Connecting to Payment</h1>
+            <p class="text-xs text-[#68736F] leading-relaxed">Please wait a moment while we safely redirect you to the payment portal.</p>
+        </div>
+
+        <div class="bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl p-4 mb-6 flex items-center justify-between text-left">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-[#FFFFFF] border border-[#DED9D0] flex items-center justify-center text-[#5F8A70] shrink-0">
+                    <i data-lucide="receipt" class="w-5 h-5 text-[#5F8A70]"></i>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-[#68736F] uppercase tracking-wider block">Total Amount</span>
+                    <span class="text-base font-bold text-[#26332F]">Rs. {{ amount|floatformat:2 }}</span>
+                </div>
+            </div>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#5F8A70]/10 border border-[#5F8A70]/20 text-[#5F8A70] text-[11px] font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#5F8A70] animate-ping"></span>
+                eSewa
+            </span>
+        </div>
+
+        <div class="flex items-center justify-center gap-2 text-[11px] text-[#68736F] bg-[#FFFFFF] py-2.5 px-3 rounded-xl border border-[#DED9D0]/80">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-[#5F8A70]"></i>
+            <span>256-Bit Encrypted & Secure Connection</span>
+        </div>
+
+        <form id="esewa_form" action="{{ esewa_url }}" method="POST">
+            <input type="hidden" name="amount" value="{{ amount }}">
+            <input type="hidden" name="tax_amount" value="0">
+            <input type="hidden" name="total_amount" value="{{ amount }}">
+            <input type="hidden" name="transaction_uuid" value="{{ transaction_uuid }}">
+            <input type="hidden" name="product_code" value="{{ product_code }}">
+            <input type="hidden" name="product_service_charge" value="0">
+            <input type="hidden" name="product_delivery_charge" value="0">
+            <input type="hidden" name="success_url" value="{{ success_url }}">
+            <input type="hidden" name="failure_url" value="{{ failure_url }}">
+            <input type="hidden" name="signed_field_names" value="total_amount,transaction_uuid,product_code">
+            <input type="hidden" name="signature" value="{{ signature }}">
+        </form>
+
+    </div>
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('esewa_form').submit();
+            }, 800); 
+        };
+    </script>
+</body>
+</html>

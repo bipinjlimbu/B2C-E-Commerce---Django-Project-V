@@ -6,6 +6,7 @@ from .views.brand_view import add_brand_view, edit_brand_view, delete_brand_view
 from .views.product_view import products_view, add_product_view, edit_product_view, product_toggle_status_view, delete_product_view, product_detail_view
 from .views.wishlist_view import wishlist_toggle_view, wishlist_view, remove_from_wishlist_view
 from .views.cart_view import add_to_cart_view, cart_view, increase_cart_item_quantity_view, decrease_cart_item_quantity_view, remove_cart_item_view
+from .views.payment_view import initiate_payment_view
 from .views.dashboard import admin_dashboard_view, customer_dashboard_view
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path('cart/increase/<int:cart_item_id>/', increase_cart_item_quantity_view, name='increase_cart_item_quantity'),
     path('cart/decrease/<int:cart_item_id>/', decrease_cart_item_quantity_view, name='decrease_cart_item_quantity'),
     path('cart/remove/<int:cart_item_id>/', remove_cart_item_view, name='remove_cart_item'),
+    path('payment/initiate/', initiate_payment_view, name='initiate_payment'),
     path('dashboard/admin/', admin_dashboard_view, name='admin_dashboard'),
     path('dashboard/', customer_dashboard_view, name='customer_dashboard'),
 ]
