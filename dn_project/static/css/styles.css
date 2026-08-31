@@ -1113,6 +1113,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   min-width: 240px;
 }
 
+.min-w-\[85px\] {
+  min-width: 85px;
+}
+
 .max-w-4xl {
   max-width: 56rem;
 }
@@ -3158,6 +3162,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .sm\:gap-4 {
     gap: 1rem;
+  }
+
+  .sm\:gap-5 {
+    gap: 1.25rem;
   }
 
   .sm\:self-center {
