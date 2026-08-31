@@ -1,11 +1,57 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import Q
 from ..models import Product, Brand
 
 def products_view(request):
-    products = Product.objects.all()
-    return render(request, 'main/products_page.html', {'products': products})
+    brands = Brand.objects.all()
+    products = Product.objects.filter(is_active=True)
+    
+    category = request.GET.get('category', 'all')
+    skin_type = request.GET.get('skin_type', 'any')
+    brand_id = request.GET.get('brand', 'all')
+    price_range = request.GET.get('price_range', 'all')
+    sort = request.GET.get('sort', 'latest')
+    search = request.GET.get('search', '').strip()
+    
+    if category != 'all':
+        products = products.filter(category=category)
+        
+    if skin_type != 'any':
+        products = products.filter(skin_type=skin_type)
+        
+    if brand_id != 'all':
+        products = products.filter(brand__id=brand_id)
+        
+    if price_range != 'all':
+        if price_range == '0-999':
+            products = products.filter(price__lt=1000)
+        elif price_range == '1000-4999':
+            products = products.filter(price__gte=1000, price__lt=5000)
+        elif price_range == '5000-9999':
+            products = products.filter(price__gte=5000, price__lt=10000)
+        elif price_range == '10000-49999':
+            products = products.filter(price__gte=10000, price__lt=50000)
+        elif price_range == '50000+':
+            products = products.filter(price__gte=50000)
+            
+    if sort:
+        if sort == 'latest':
+            products = products.order_by('-created_at')
+        elif sort == 'price_asc':
+            products = products.order_by('price')
+        elif sort == 'price_desc':
+            products = products.order_by('-price')
+        elif sort == 'stock_asc':
+            products = products.order_by('stock')
+        elif sort == 'stock_desc':
+            products = products.order_by('-stock')
+            
+    if search:
+        products = products.filter(Q(name__icontains=search) | Q(brand__name__icontains=search) | Q(ingredients__icontains=search) | Q(description__icontains=search))
+        
+    return render(request, 'main/products_page.html', {'products': products, 'brands': brands})
 
 @login_required
 def add_product_view(request):
