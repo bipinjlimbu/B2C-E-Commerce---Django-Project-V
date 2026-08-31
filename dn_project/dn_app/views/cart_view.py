@@ -66,3 +66,29 @@ def increase_cart_item_quantity_view(request, cart_item_id):
     messages.success(request, 'Product quantity increased in the cart.')
         
     return redirect('/cart/')
+
+@login_required
+def decrease_cart_item_quantity_view(request, cart_item_id):
+    if not request.user.is_authenticated and request.user.is_superuser:
+        messages.error(request, 'You are not authorized to modify the cart.')
+        return redirect('/')
+    
+    cart_item = CartItem.objects.get(id=cart_item_id)
+    
+    if not cart_item:
+        messages.error(request, 'Cart item does not exist.')
+        return redirect('/cart/')
+    
+    if cart_item.cart.customer != request.user:
+        messages.error(request, 'You are not authorized to modify this cart item.')
+        return redirect('/cart/')
+    
+    if cart_item.quantity <= 1:
+        messages.error(request, 'Cannot decrease quantity below 1. Remove the item from the cart instead.')
+        return redirect('/cart/')
+    
+    cart_item.quantity -= 1
+    cart_item.save()
+    messages.success(request, 'Product quantity decreased in the cart.')
+        
+    return redirect('/cart/')
