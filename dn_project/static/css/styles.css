@@ -1169,6 +1169,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   max-width: 200px;
 }
 
+.max-w-\[180px\] {
+  max-width: 180px;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1464,6 +1468,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 .divide-\[\#DED9D0\] > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: rgb(222 217 208 / var(--tw-divide-opacity));
+}
+
+.divide-\[\#DED9D0\]\/80 > :not([hidden]) ~ :not([hidden]) {
+  border-color: rgb(222 217 208 / 0.8);
 }
 
 .self-start {
@@ -3158,6 +3166,10 @@ Ensure the default browser behavior of the `hidden` attribute.
     max-width: 20rem;
   }
 
+  .sm\:max-w-\[200px\] {
+    max-width: 200px;
+  }
+
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -3260,6 +3272,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   .sm\:py-14 {
     padding-top: 3.5rem;
     padding-bottom: 3.5rem;
+  }
+
+  .sm\:py-16 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   .sm\:pt-0 {
