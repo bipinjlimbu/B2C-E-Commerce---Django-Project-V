@@ -61,7 +61,7 @@
                             {{ product.get_category_display|default:"Skin Care" }}
                         </span>
                         <span class="bg-[#52796F] text-[#F7F4EE] text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">
-                            {{ product.get_skin_type_display|default:"Any Skin Type" }}
+                            {{ product.get_skin_type_display|default:"All Skin Types" }}
                         </span>
                     </div>
                 </div>
@@ -135,9 +135,22 @@
                     </div>
 
                     <div class="space-y-3">
-                        <h2 class="text-xs font-bold uppercase tracking-wider text-[#26332F]">Ingredients & Details</h2>
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="align-left" class="w-4 h-4 text-[#52796F]"></i>
+                            <h2 class="text-xs font-bold uppercase tracking-wider text-[#26332F]">Product Description</h2>
+                        </div>
                         <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 text-sm text-[#68736F] leading-relaxed whitespace-pre-line shadow-sm">
                             {{ product.description|default:"No description available for this product." }}
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <i data-lucide="flask-conical" class="w-4 h-4 text-[#C6A15B]"></i>
+                            <h2 class="text-xs font-bold uppercase tracking-wider text-[#26332F]">Ingredients</h2>
+                        </div>
+                        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 text-sm text-[#68736F] leading-relaxed whitespace-pre-line shadow-sm">
+                            {{ product.ingredients|default:"Ingredients information unavailable for this product." }}
                         </div>
                     </div>
                 </div>
