@@ -231,4 +231,10 @@ def delete_product_view(request, product_id):
 
 @login_required
 def product_detail_view(request, product_id):
-    return render(request, 'main/product_detail_page.html')
+    product = Product.objects.get(id=product_id)
+    
+    if not product:
+        messages.error(request, 'Product does not exist.')
+        return redirect('/products/')
+
+    return render(request, 'main/product_detail_page.html', {'product': product})
