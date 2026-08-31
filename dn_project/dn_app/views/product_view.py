@@ -141,3 +141,10 @@ def product_toggle_status_view(request, product_id):
     status = 'activated' if product.is_active else 'deactivated'
     messages.success(request, f'Product {status} successfully.')
     return redirect('/dashboard/admin/?section=product-management')
+
+@login_required
+def delete_product_view(request, product_id):
+    product = Product.objects.get(id=product_id)
+    product.delete()
+    messages.success(request, 'Product deleted successfully.')
+    return redirect('/dashboard/admin/?section=product-management')
