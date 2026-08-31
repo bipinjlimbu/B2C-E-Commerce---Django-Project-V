@@ -228,3 +228,7 @@ def delete_product_view(request, product_id):
     product.delete()
     messages.success(request, 'Product deleted successfully.')
     return redirect('/dashboard/admin/?section=product-management')
+
+@login_required
+def product_detail_view(request, product_id):
+    return render(request, 'main/product_detail_page.html')

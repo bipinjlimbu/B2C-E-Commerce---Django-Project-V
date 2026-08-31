@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F7F4EE;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #DED9D0;
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #C6A15B;
+        }
+    </style>
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-10 lg:space-y-14">
+        
+        <nav class="flex items-center gap-2 text-xs font-medium text-[#68736F]">
+            <a href="javascript:history.back()" class="inline-flex items-center gap-1.5 hover:text-[#52796F] transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Back</span>
+            </a>
+            <span class="text-[#DED9D0]">/</span>
+            <span class="text-[#52796F] font-semibold">{{ product.get_category_display|default:"Skin Care" }}</span>
+            <span class="text-[#DED9D0]">/</span>
+            <span class="text-[#26332F] font-medium truncate max-w-[200px] sm:max-w-xs">{{ product.name }}</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+            
+            <div class="lg:col-span-6 space-y-5 lg:sticky lg:top-8">
+                <div class="w-full aspect-square bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl overflow-hidden flex items-center justify-center relative group shadow-sm">
+                    {% if product.product_image %}
+                        <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out">
+                    {% else %}
+                        <div class="flex flex-col items-center justify-center text-center space-y-3 p-6">
+                            <i data-lucide="sparkles" class="w-16 h-16 text-[#C6A15B]/60"></i>
+                            <span class="text-xs uppercase tracking-widest text-[#52796F] font-bold">DermaNest Skincare</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-5 left-5 flex flex-wrap gap-2 z-10">
+                        <span class="bg-[#F7F4EE]/90 backdrop-blur-md border border-[#DED9D0] text-[#52796F] text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">
+                            {{ product.get_category_display|default:"Skin Care" }}
+                        </span>
+                        <span class="bg-[#52796F] text-[#F7F4EE] text-[11px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">
+                            {{ product.get_skin_type_display|default:"Any Skin Type" }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] flex items-center justify-center text-[#52796F] shrink-0">
+                            <i data-lucide="leaf" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#26332F]">Botanical</p>
+                            <p class="text-[10px] text-[#68736F]">100% Gentle</p>
+                        </div>
+                    </div>
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] flex items-center justify-center text-[#C6A15B] shrink-0">
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#26332F]">Tested</p>
+                            <p class="text-[10px] text-[#68736F]">Safe & Clean</p>
+                        </div>
+                    </div>
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-3.5 flex items-center gap-3 shadow-sm">
+                        <div class="w-10 h-10 rounded-xl bg-[#F7F4EE] flex items-center justify-center text-[#C98F8F] shrink-0">
+                            <i data-lucide="truck" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-[#26332F]">Fast Delivery</p>
+                            <p class="text-[10px] text-[#68736F]">Safe Shipping</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 flex flex-col justify-between space-y-6">
+                
+                <div class="space-y-6">
+                    <div class="space-y-2 border-b border-[#DED9D0] pb-6">
+                        <span class="text-xs font-bold uppercase tracking-widest text-[#C6A15B]">
+                            {{ product.brand.name|default:"DermaNest Collection" }}
+                        </span>
+                        <h1 class="text-3xl sm:text-4xl font-semibold text-[#26332F] tracking-tight leading-snug">
+                            {{ product.name }}
+                        </h1>
+                        {% if product.sku %}
+                            <p class="text-xs font-mono text-[#68736F]">Item Code: {{ product.sku }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-wider text-[#68736F]">Price</span>
+                            <div class="text-3xl font-bold text-[#52796F] mt-0.5">
+                                Rs. {{ product.price|floatformat:2 }}
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs font-bold uppercase tracking-wider text-[#68736F]">Status</span>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="w-2.5 h-2.5 rounded-full {% if product.stock > 0 %}bg-[#5F8A70]{% else %}bg-[#B85C62]{% endif %}"></span>
+                                <span class="font-bold text-xs uppercase tracking-wider {% if product.stock > 0 %}text-[#5F8A70]{% else %}text-[#B85C62]{% endif %}">
+                                    {% if product.stock > 0 %}
+                                        In Stock ({{ product.stock }} available)
+                                    {% else %}
+                                        Out of Stock
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-[#26332F]">Ingredients & Details</h2>
+                        <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 text-sm text-[#68736F] leading-relaxed whitespace-pre-line shadow-sm">
+                            {{ product.description|default:"No description available for this product." }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t border-[#DED9D0] flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    {% if user.is_authenticated and not user.is_staff %}
+                        {% if product.stock > 0 %}
+                            <a href="/cart/add/{{ product.id }}/" class="flex-grow bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2 text-sm shadow-sm active:scale-[0.99]">
+                                <i data-lucide="shopping-bag" class="w-4 h-4 text-[#C6A15B]"></i>
+                                <span>Add to Cart</span>
+                            </a>
+                        {% else %}
+                            <button disabled class="flex-grow bg-[#DED9D0] text-[#68736F] font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 text-sm cursor-not-allowed">
+                                <i data-lucide="slash" class="w-4 h-4"></i>
+                                <span>Out of Stock</span>
+                            </button>
+                        {% endif %}
+                    {% elif user.is_staff %}
+                        <a href="/dashboard/admin/?section=product-management" class="flex-grow bg-[#26332F] hover:bg-[#3F6259] text-[#FFFFFF] font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2 text-sm shadow-sm">
+                            <i data-lucide="settings" class="w-4 h-4"></i>
+                            <span>Manage Product</span>
+                        </a>
+                    {% else %}
+                        <a href="/login/" class="flex-grow bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] font-bold py-4 px-6 rounded-2xl transition-all flex items-center justify-center gap-2 text-sm shadow-sm">
+                            <i data-lucide="log-in" class="w-4 h-4"></i>
+                            <span>Sign In to Shop</span>
+                        </a>
+                    {% endif %}
+
+                    <a href="/products/wishlist-toggle/{{ product.id }}/" class="bg-[#FFFFFF] hover:bg-[#F7F4EE] text-[#C98F8F] border border-[#DED9D0] w-14 h-14 rounded-2xl transition-all flex items-center justify-center shadow-sm shrink-0 hover:border-[#C98F8F]" title="Add to Wishlist">
+                        {% if product.in_wishlist %}
+                            <i data-lucide="heart" class="w-5 h-5 fill-current text-[#C98F8F]"></i>
+                        {% else %}
+                            <i data-lucide="heart" class="w-5 h-5"></i>
+                        {% endif %}
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <section class="border-t border-[#DED9D0] pt-12 space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-[#C6A15B]">Customer Feedback</span>
+                    <h2 class="text-2xl font-semibold text-[#26332F] tracking-tight mt-0.5">Reviews</h2>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="bg-[#FFFFFF] border border-[#DED9D0] px-4 py-2.5 rounded-2xl flex items-center gap-3 shadow-sm">
+                        <div class="flex text-[#C6A15B]">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= product.average_rating %}
+                                    <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                {% else %}
+                                    <i data-lucide="star" class="w-4 h-4 text-[#DED9D0]"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <span class="text-xs font-bold text-[#26332F]">{{ product.average_rating }} / 5.0</span>
+                    </div>
+
+                    {% if user.is_authenticated and not user.is_staff %}
+                        <a href="/review/add/{{ product.id }}" class="bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] font-bold px-5 py-2.5 rounded-2xl text-xs transition-all flex items-center gap-2 shadow-sm">
+                            <i data-lucide="plus-circle" class="w-4 h-4 text-[#C6A15B]"></i>
+                            <span>Write a Review</span>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                {% for review in reviews %}
+                <div class="bg-[#FFFFFF] border border-[#DED9D0] p-6 rounded-2xl flex flex-col justify-between space-y-4 hover:border-[#52796F] transition-all shadow-sm relative group">
+                    
+                    {% if review.customer == request.user or request.user.is_staff %}
+                        <div class="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {% if review.customer == request.user %}
+                                <a href="/review/edit/{{ review.id }}/" class="p-2 bg-[#F7F4EE] border border-[#DED9D0] rounded-xl text-[#68736F] hover:text-[#52796F] transition-colors" title="Edit Review">
+                                    <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                                </a>
+                            {% endif %}
+                            <button type="button" onclick="openDeleteReviewModal('/review/delete/{{ review.id }}/')" class="p-2 bg-[#F7F4EE] border border-[#DED9D0] rounded-xl text-[#68736F] hover:text-[#B85C62] transition-colors" title="Delete Review">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    {% endif %}
+
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center font-bold text-[#52796F] text-sm overflow-hidden shrink-0">
+                                    {% if review.customer.profile_picture %}
+                                        <img src="{{ review.customer.profile_picture.url }}" alt="{{ review.customer.get_full_name }}" class="w-full h-full object-cover">
+                                    {% else %}
+                                        {{ review.customer.get_full_name|slice:":1"|upper }}
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-[#26332F] pr-12">{{ review.customer.get_full_name }}</h3>
+                                    <p class="text-[11px] text-[#68736F]">{{ review.customer.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex text-[#C6A15B]">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+                                {% else %}
+                                    <i data-lucide="star" class="w-3.5 h-3.5 text-[#DED9D0]"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <p class="text-xs text-[#68736F] leading-relaxed">
+                            {{ review.comment }}
+                        </p>
+                    </div>
+
+                    <div class="pt-3 border-t border-[#DED9D0]/60 flex items-center justify-between text-[10px] text-[#68736F]">
+                        <span>Posted {{ review.created_at|timesince }} ago</span>
+                        <span class="font-semibold text-[#52796F]">Verified Buyer</span>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="bg-[#FFFFFF] border border-dashed border-[#DED9D0] p-12 rounded-3xl flex flex-col items-center justify-center space-y-3 text-center">
+                    <div class="w-14 h-14 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F]">
+                        <i data-lucide="message-square" class="w-7 h-7"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-sm font-bold text-[#26332F]">No Reviews Yet</h3>
+                        <p class="text-xs text-[#68736F]">Be the first to share your thoughts on this product.</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+    </main>
+
+    <div id="deleteReviewModal" class="fixed inset-0 bg-[#26332F]/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="deleteReviewModalCard" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl max-w-sm w-full p-6 space-y-6 shadow-2xl transform scale-95 transition-transform duration-300">
+            <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-2xl bg-[#B85C62]/10 border border-[#B85C62]/20 flex items-center justify-center text-[#B85C62] shrink-0">
+                    <i data-lucide="alert-triangle" class="w-6 h-6"></i>
+                </div>
+                <div class="space-y-1 pt-0.5">
+                    <h3 class="text-base font-bold text-[#26332F]">Delete Review</h3>
+                    <p class="text-xs text-[#68736F] leading-relaxed">
+                        Are you sure you want to remove this review? This action cannot be undone.
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-2 border-t border-[#DED9D0]">
+                <button type="button" onclick="closeDeleteReviewModal()" class="px-4 py-2.5 bg-[#F7F4EE] hover:bg-[#DED9D0]/40 border border-[#DED9D0] text-[#68736F] hover:text-[#26332F] font-bold text-xs rounded-xl transition-all">
+                    Cancel
+                </button>
+                <a id="confirmDeleteReviewBtn" href="#" class="px-5 py-2.5 bg-[#B85C62] hover:bg-[#9E4B51] text-[#FFFFFF] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    <span>Delete</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+
+        const deleteReviewModal = document.getElementById('deleteReviewModal');
+        const deleteReviewModalCard = document.getElementById('deleteReviewModalCard');
+        const confirmDeleteReviewBtn = document.getElementById('confirmDeleteReviewBtn');
+
+        function openDeleteReviewModal(deleteUrl) {
+            confirmDeleteReviewBtn.setAttribute('href', deleteUrl);
+            document.body.style.overflow = 'hidden';
+            
+            deleteReviewModal.classList.remove('opacity-0', 'pointer-events-none');
+            deleteReviewModalCard.classList.remove('scale-95');
+            deleteReviewModalCard.classList.add('scale-100');
+        }
+
+        function closeDeleteReviewModal() {
+            deleteReviewModal.classList.add('opacity-0', 'pointer-events-none');
+            deleteReviewModalCard.classList.remove('scale-100');
+            deleteReviewModalCard.classList.add('scale-95');
+            document.body.style.overflow = '';
+        }
+
+        deleteReviewModal.addEventListener('click', function(e) {
+            if (e.target === deleteReviewModal) {
+                closeDeleteReviewModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && !deleteReviewModal.classList.contains('pointer-events-none')) {
+                closeDeleteReviewModal();
+            }
+        });
+    </script>
+</body>
+</html>
