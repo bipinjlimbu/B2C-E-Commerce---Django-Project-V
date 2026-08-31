@@ -180,13 +180,15 @@
                         </a>
                     {% endif %}
 
-                    <a href="/products/wishlist-toggle/{{ product.id }}/" class="bg-[#FFFFFF] hover:bg-[#F7F4EE] text-[#C98F8F] border border-[#DED9D0] w-14 h-14 rounded-2xl transition-all flex items-center justify-center shadow-sm shrink-0 hover:border-[#C98F8F]" title="Add to Wishlist">
-                        {% if product.in_wishlist %}
-                            <i data-lucide="heart" class="w-5 h-5 fill-current text-[#C98F8F]"></i>
-                        {% else %}
-                            <i data-lucide="heart" class="w-5 h-5"></i>
-                        {% endif %}
-                    </a>
+                    {% if user.is_authenticated and not user.is_staff %}
+                        <a href="/products/wishlist-toggle/{{ product.id }}/" class="bg-[#FFFFFF] hover:bg-[#F7F4EE] text-[#C98F8F] border border-[#DED9D0] w-14 h-14 rounded-2xl transition-all flex items-center justify-center shadow-sm shrink-0 hover:border-[#C98F8F]" title="Add to Wishlist">
+                            {% if product.in_wishlist %}
+                                <i data-lucide="heart" class="w-5 h-5 fill-current text-[#C98F8F]"></i>
+                            {% else %}
+                                <i data-lucide="heart" class="w-5 h-5"></i>
+                            {% endif %}
+                        </a>
+                    {% endif %}
                 </div>
 
             </div>
