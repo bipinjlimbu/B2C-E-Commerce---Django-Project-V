@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Care Collection | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 6px;
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F7F4EE;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #C6A15B;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #52796F;
+        }
+    </style>
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 space-y-8">
+        
+        <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#26332F] via-[#3F6259] to-[#52796F] p-8 lg:p-12 text-[#F7F4EE] shadow-lg border border-[#DED9D0]">
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#C6A15B_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="relative z-10 max-w-2xl space-y-3">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C6A15B]/20 border border-[#C6A15B]/40 backdrop-blur-sm text-[#C6A15B] text-xs font-semibold uppercase tracking-wider">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                    <span>Nourish Your Natural Radiance</span>
+                </div>
+                <h1 class="text-3xl lg:text-4xl font-semibold tracking-tight text-[#F7F4EE]">
+                    Botanical Skincare Essentials
+                </h1>
+                <p class="text-sm lg:text-base text-[#F7F4EE]/80 leading-relaxed">
+                    Explore clean, gentle, and effective skincare created to hydrate, protect, and restore your skin's natural glow.
+                </p>
+            </div>
+        </div>
+
+        <form method="GET" action="/products/" class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl p-6 shadow-sm">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#DED9D0]">
+                <div class="flex items-center gap-2 text-[#26332F] font-bold text-sm uppercase tracking-wide">
+                    <i data-lucide="sliders-horizontal" class="w-4 h-4 text-[#C6A15B]"></i>
+                    <span>Filter Products</span>
+                </div>
+                <a href="/products/" class="text-xs font-semibold text-[#C98F8F] hover:text-[#52796F] transition-colors flex items-center gap-1">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span>Reset Filters</span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Category</label>
+                    <select name="category" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
+                        <option value="all">All Categories</option>
+                        <option value="cleanser" {% if request.GET.category == 'cleanser' %}selected{% endif %}>Cleansers</option>
+                        <option value="toner" {% if request.GET.category == 'toner' %}selected{% endif %}>Toners & Essences</option>
+                        <option value="serum" {% if request.GET.category == 'serum' %}selected{% endif %}>Serums & Ampoules</option>
+                        <option value="moisturizer" {% if request.GET.category == 'moisturizer' %}selected{% endif %}>Moisturizers</option>
+                        <option value="sunscreen" {% if request.GET.category == 'sunscreen' %}selected{% endif %}>Sunscreens</option>
+                        <option value="mask" {% if request.GET.category == 'mask' %}selected{% endif %}>Masks & Exfoliators</option>
+                        <option value="eye_care" {% if request.GET.category == 'eye_care' %}selected{% endif %}>Eye Care</option>
+                        <option value="lip_care" {% if request.GET.category == 'lip_care' %}selected{% endif %}>Lip Care</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Brand</label>
+                    <select name="brand" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
+                        <option value="all">All Brands</option>
+                        {% for brand in brands %}
+                            <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"i" %}selected{% endif %}>{{ brand.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Skin Type</label>
+                    <select name="skin_type" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
+                        <option value="all">All Skin Types</option>
+                        <option value="dry" {% if request.GET.skin_type == 'dry' %}selected{% endif %}>Dry</option>
+                        <option value="oily" {% if request.GET.skin_type == 'oily' %}selected{% endif %}>Oily</option>
+                        <option value="combination" {% if request.GET.skin_type == 'combination' %}selected{% endif %}>Combination</option>
+                        <option value="sensitive" {% if request.GET.skin_type == 'sensitive' %}selected{% endif %}>Sensitive</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Price Range</label>
+                    <select name="price_range" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
+                        <option value="all">Any Price</option>
+                        <option value="0-999" {% if request.GET.price_range == '0-999' %}selected{% endif %}>Rs. 0 - Rs. 999</option>
+                        <option value="1000-4999" {% if request.GET.price_range == '1000-4999' %}selected{% endif %}>Rs. 1,000 - Rs. 4,999</option>
+                        <option value="5000-9999" {% if request.GET.price_range == '5000-9999' %}selected{% endif %}>Rs. 5,000 - Rs. 9,999</option>
+                        <option value="10000-49999" {% if request.GET.price_range == '10000-49999' %}selected{% endif %}>Rs. 10,000 - Rs. 49,999</option>
+                        <option value="50000+" {% if request.GET.price_range == '50000+' %}selected{% endif %}>Rs. 50,000+</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Sort By</label>
+                    <select name="sort" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
+                        <option value="latest" {% if request.GET.sort == 'latest' %}selected{% endif %}>Latest Arrivals</option>
+                        <option value="price_asc" {% if request.GET.sort == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="price_desc" {% if request.GET.sort == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="stock_asc" {% if request.GET.sort == 'stock_asc' %}selected{% endif %}>Stock: Low to High</option>
+                        <option value="stock_desc" {% if request.GET.sort == 'stock_desc' %}selected{% endif %}>Stock: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <div class="w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for product in products %}
+                <div class="bg-[#FFFFFF] border border-[#DED9D0] rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-[#52796F] transition-all duration-300 flex flex-col group relative">
+                    
+                    <a href="/products/{{ product.id }}/" class="flex flex-col flex-grow">
+                        <div class="aspect-square w-full relative overflow-hidden bg-[#F7F4EE] border-b border-[#DED9D0]">
+                            {% if product.product_image %}
+                                <img src="{{ product.product_image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            {% else %}
+                                <div class="w-full h-full flex flex-col items-center justify-center p-4 text-center">
+                                    <i data-lucide="sparkles" class="w-10 h-10 text-[#C98F8F]/60 group-hover:scale-110 group-hover:text-[#52796F] transition-all"></i>
+                                    <span class="text-[10px] uppercase font-bold tracking-widest text-[#68736F] mt-3">DermaNest Collection</span>
+                                </div>
+                            {% endif %}
+
+                            <span class="absolute top-4 left-4 bg-[#26332F] text-[#F7F4EE] text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-full shadow-sm z-10">
+                                {{ product.get_skin_type_display|default:"All Skin Types" }}
+                            </span>
+                        </div>
+
+                        <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+                            <div class="space-y-1.5">
+                                <h3 class="font-semibold text-[#26332F] text-base group-hover:text-[#52796F] transition-colors line-clamp-1">
+                                    {{ product.name|truncatechars:30|default:"Skincare Product" }}
+                                </h3>
+                                <p class="text-xs text-[#68736F] line-clamp-2 leading-relaxed">
+                                    {{ product.description|truncatechars:70|default:"No description available." }}
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+
+                    <div class="p-5 pt-0 mt-auto">
+                        <div class="pt-3 border-t border-[#DED9D0] flex items-center justify-between">
+                            <div>
+                                <span class="block text-[10px] font-semibold uppercase text-[#68736F] tracking-wider">Price</span>
+                                <span class="text-lg font-bold text-[#52796F]">Rs. {{ product.price|floatformat:2 }}</span>
+                            </div>
+
+                            {% if user.is_authenticated and not user.is_staff %}
+                                <a href="/cart/add/{{ product.id }}/" class="bg-[#52796F] hover:bg-[#3F6259] text-[#FFFFFF] px-3.5 py-2.5 rounded-xl font-semibold text-xs transition-colors shadow-sm flex items-center gap-1.5 z-10" title="Add to Cart">
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                    <span>Add to Cart</span>
+                                </a>
+                            {% elif user.is_staff %}
+                                <a href="/dashboard/admin/?section=product-management" class="bg-[#26332F] hover:bg-[#3F6259] text-[#FFFFFF] px-3.5 py-2.5 rounded-xl font-semibold text-xs transition-colors shadow-sm flex items-center gap-1.5 z-10" title="Manage Item">
+                                    <i data-lucide="settings" class="w-4 h-4"></i>
+                                    <span>Manage</span>
+                                </a>
+                            {% else %}
+                                <a href="/login/" class="bg-[#F7F4EE] hover:bg-[#52796F] text-[#26332F] hover:text-[#FFFFFF] border border-[#DED9D0] px-3.5 py-2.5 rounded-xl font-semibold text-xs transition-all shadow-sm flex items-center gap-1.5 z-10" title="Sign In to Shop">
+                                    <i data-lucide="log-in" class="w-4 h-4"></i>
+                                    <span>Sign In</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+                {% empty %}
+                <div class="col-span-full bg-[#FFFFFF] border border-dashed border-[#DED9D0] rounded-3xl p-12 text-center space-y-4">
+                    <div class="w-16 h-16 rounded-2xl bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center mx-auto text-[#52796F]">
+                        <i data-lucide="package-open" class="w-8 h-8"></i>
+                    </div>
+                    <div class="max-w-sm mx-auto space-y-1">
+                        <h3 class="font-semibold text-lg text-[#26332F]">No Products Available</h3>
+                        <p class="text-xs text-[#68736F]">We are currently updating our skincare collection. Please check back soon!</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

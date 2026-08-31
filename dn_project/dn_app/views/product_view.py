@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from ..models import Product, Brand
 
+def products_view(request):
+    products = Product.objects.all()
+    return render(request, 'main/products_page.html', {'products': products})
+
 @login_required
 def add_product_view(request):
     if not request.user.is_superuser:
