@@ -5,6 +5,10 @@ from ..models import Product, Brand
 
 @login_required
 def add_product_view(request):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to add a product.')
+        return redirect('/')
+    
     errors = {}
     brands = Brand.objects.all()
     if request.method == 'POST':
@@ -70,8 +74,16 @@ def add_product_view(request):
 
 @login_required
 def edit_product_view(request, product_id):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to edit this product.')
+        return redirect('/')
+    
     product = Product.objects.get(id=product_id)
     brands = Brand.objects.all()
+    
+    if not product:
+        messages.error(request, 'Product does not exist.')
+        return redirect('/dashboard/admin/?section=product-management')
     
     errors = {}
     if request.method == 'POST':
@@ -135,7 +147,16 @@ def edit_product_view(request, product_id):
 
 @login_required
 def product_toggle_status_view(request, product_id):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to change the status of this product.')
+        return redirect('/')
+    
     product = Product.objects.get(id=product_id)
+    
+    if not product:
+        messages.error(request, 'Product does not exist.')
+        return redirect('/dashboard/admin/?section=product-management')
+    
     product.is_active = not product.is_active
     product.save()
     status = 'activated' if product.is_active else 'deactivated'
@@ -144,7 +165,16 @@ def product_toggle_status_view(request, product_id):
 
 @login_required
 def delete_product_view(request, product_id):
+    if not request.user.is_superuser:
+        messages.error(request, 'You are not authorized to delete this product.')
+        return redirect('/')
+    
     product = Product.objects.get(id=product_id)
+    
+    if not product:
+        messages.error(request, 'Product does not exist.')
+        return redirect('/dashboard/admin/?section=product-management')
+
     product.delete()
     messages.success(request, 'Product deleted successfully.')
     return redirect('/dashboard/admin/?section=product-management')
