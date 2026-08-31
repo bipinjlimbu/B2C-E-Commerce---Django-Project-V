@@ -17,6 +17,7 @@ def add_product_view(request):
         description = request.POST.get('description')
         price = request.POST.get('price')
         stock = request.POST.get('stock')
+        sku = request.POST.get('sku')
         product_image = request.FILES.get('product_image')
         is_active = request.POST.get('is_active') == 'true'
 
@@ -34,6 +35,12 @@ def add_product_view(request):
             errors['price'] = 'Price is required.'
         if not stock:
             errors['stock'] = 'Stock is required.'
+            
+        if not sku:
+            errors['sku'] = 'SKU is required.'
+        elif Product.objects.filter(sku=sku).exists():
+            errors['sku'] = 'SKU already exists.'
+            
         if not product_image:
             errors['product_image'] = 'Product image is required.'
 
@@ -51,7 +58,9 @@ def add_product_view(request):
             description=description,
             price=price,
             stock=stock,
-            product_image=product_image
+            sku=sku,
+            product_image=product_image,
+            is_active=is_active
         )
         product.save()
         messages.success(request, 'Product added successfully.')
