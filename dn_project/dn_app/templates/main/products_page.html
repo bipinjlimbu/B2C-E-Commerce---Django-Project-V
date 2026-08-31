@@ -89,7 +89,8 @@
                 <div class="space-y-1.5">
                     <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] block">Skin Type</label>
                     <select name="skin_type" onchange="this.form.submit()" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-3 text-xs font-medium text-[#26332F] focus:outline-none focus:border-[#52796F] focus:ring-1 focus:ring-[#52796F] transition-all">
-                        <option value="all">All Skin Types</option>
+                        <option value="any">Any Skin Type</option>
+                        <option value="all" {% if request.GET.skin_type == 'all' %}selected{% endif %}>All Skin Types</option>
                         <option value="dry" {% if request.GET.skin_type == 'dry' %}selected{% endif %}>Dry</option>
                         <option value="oily" {% if request.GET.skin_type == 'oily' %}selected{% endif %}>Oily</option>
                         <option value="combination" {% if request.GET.skin_type == 'combination' %}selected{% endif %}>Combination</option>
