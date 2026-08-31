@@ -4,6 +4,10 @@ from django.contrib import messages
 from ..models import Product, Wishlist
 
 @login_required
+def wishlist_view(request):
+    return render(request, 'main/wishlist_page.html')
+
+@login_required
 def wishlist_toggle_view(request, product_id):
     if not request.user.is_authenticated and request.user.is_superuser:
         messages.error(request, 'You are not authorized to add products to the wishlist.')
