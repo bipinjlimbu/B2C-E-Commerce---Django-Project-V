@@ -45,15 +45,13 @@
                 <div>
                     <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
                         <i data-lucide="package" class="w-5 h-5 text-[#52796F]"></i>
-                        Basic Product Information
+                        Basic Details
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="md:col-span-2 space-y-1.5">
                             <label for="id_name" class="text-xs font-bold text-[#26332F] block">Product Name <span class="text-[#B85C62]">*</span></label>
-                            <div class="relative">
-                                <input type="text" id="id_name" name="name" value="{{ data.name|default:'' }}" maxlength="255" placeholder="e.g. Hydrating Botanical Face Serum" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
-                            </div>
+                            <input type="text" id="id_name" name="name" value="{{ data.name|default:'' }}" maxlength="255" placeholder="e.g. Gentle Hydrating Cleanser" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
                             {% if errors.name %}
                                 <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
                                     <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
@@ -82,14 +80,14 @@
                             <label for="id_category" class="text-xs font-bold text-[#26332F] block">Category <span class="text-[#B85C62]">*</span></label>
                             <select id="id_category" name="category" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
                                 <option value="" disabled selected class="text-[#68736F]/50">Select Category</option>
-                                <option value="cleansers" {% if data.category == 'cleansers' %}selected{% endif %}>Cleansers &amp; Toners</option>
-                                <option value="serums" {% if data.category == 'serums' %}selected{% endif %}>Serums &amp; Treatments</option>
-                                <option value="moisturizers" {% if data.category == 'moisturizers' %}selected{% endif %}>Moisturizers &amp; Creams</option>
-                                <option value="suncare" {% if data.category == 'suncare' %}selected{% endif %}>Sun Care &amp; Protection</option>
-                                <option value="eye_care" {% if data.category == 'eye_care' %}selected{% endif %}>Eye &amp; Lip Care</option>
-                                <option value="masks" {% if data.category == 'masks' %}selected{% endif %}>Masks &amp; Exfoliators</option>
-                                <option value="body" {% if data.category == 'body' %}selected{% endif %}>Body Care</option>
-                                <option value="sets" {% if data.category == 'sets' %}selected{% endif %}>Skincare Sets</option>
+                                <option value="cleanser" {% if data.category == 'cleanser' %}selected{% endif %}>Cleansers</option>
+                                <option value="toner" {% if data.category == 'toner' %}selected{% endif %}>Toners &amp; Essences</option>
+                                <option value="serum" {% if data.category == 'serum' %}selected{% endif %}>Serums &amp; Ampoules</option>
+                                <option value="moisturizer" {% if data.category == 'moisturizer' %}selected{% endif %}>Moisturizers</option>
+                                <option value="sunscreen" {% if data.category == 'sunscreen' %}selected{% endif %}>Sunscreens</option>
+                                <option value="mask" {% if data.category == 'mask' %}selected{% endif %}>Masks &amp; Exfoliators</option>
+                                <option value="eye_care" {% if data.category == 'eye_care' %}selected{% endif %}>Eye Care</option>
+                                <option value="lip_care" {% if data.category == 'lip_care' %}selected{% endif %}>Lip Care</option>
                             </select>
                             {% if errors.category %}
                                 <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
@@ -100,27 +98,40 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label for="id_sku" class="text-xs font-bold text-[#26332F] block">Product SKU / Code</label>
-                            <input type="text" id="id_sku" name="sku" value="{{ data.sku|default:'' }}" maxlength="100" placeholder="e.g. DN-SERUM-001" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
-                            {% if errors.sku %}
+                            <label for="id_skin_type" class="text-xs font-bold text-[#26332F] block">Skin Type</label>
+                            <select id="id_skin_type" name="skin_type" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
+                                <option value="all" {% if data.skin_type == 'all' or not data.skin_type %}selected{% endif %}>All Skin Types</option>
+                                <option value="dry" {% if data.skin_type == 'dry' %}selected{% endif %}>Dry</option>
+                                <option value="oily" {% if data.skin_type == 'oily' %}selected{% endif %}>Oily</option>
+                                <option value="combination" {% if data.skin_type == 'combination' %}selected{% endif %}>Combination</option>
+                                <option value="sensitive" {% if data.skin_type == 'sensitive' %}selected{% endif %}>Sensitive</option>
+                            </select>
+                            {% if errors.skin_type %}
                                 <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
                                     <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                                    {{ errors.sku }}
+                                    {{ errors.skin_type }}
                                 </p>
                             {% endif %}
                         </div>
 
                         <div class="space-y-1.5">
-                            <label for="id_condition" class="text-xs font-bold text-[#26332F] block">Condition</label>
-                            <select id="id_condition" name="condition" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all cursor-pointer">
-                                <option value="new" {% if data.condition == 'new' or not data.condition %}selected{% endif %}>Brand New</option>
-                                <option value="refurbished" {% if data.condition == 'refurbished' %}selected{% endif %}>Special Edition</option>
-                                <option value="used" {% if data.condition == 'used' %}selected{% endif %}>Limited Stock</option>
-                            </select>
-                            {% if errors.condition %}
+                            <label for="id_volume" class="text-xs font-bold text-[#26332F] block">Volume / Size</label>
+                            <input type="text" id="id_volume" name="volume" value="{{ data.volume|default:'50ml' }}" maxlength="50" placeholder="e.g. 50ml, 100ml, 1.7 fl oz" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.volume %}
                                 <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
                                     <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
-                                    {{ errors.condition }}
+                                    {{ errors.volume }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="md:col-span-2 space-y-1.5">
+                            <label for="id_sku" class="text-xs font-bold text-[#26332F] block">Product SKU / Code</label>
+                            <input type="text" id="id_sku" name="sku" value="{{ data.sku|default:'' }}" maxlength="100" placeholder="e.g. DN-CLR-001" class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl px-4 py-3 text-xs font-semibold text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all">
+                            {% if errors.sku %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.sku }}
                                 </p>
                             {% endif %}
                         </div>
@@ -130,7 +141,7 @@
                 <div>
                     <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
                         <i data-lucide="tag" class="w-5 h-5 text-[#52796F]"></i>
-                        Pricing &amp; Inventory
+                        Pricing &amp; Stock
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,13 +175,13 @@
                 <div>
                     <h2 class="text-base font-bold text-[#26332F] flex items-center gap-2 mb-6 border-b border-[#DED9D0] pb-3">
                         <i data-lucide="file-text" class="w-5 h-5 text-[#52796F]"></i>
-                        Description &amp; Media
+                        Description &amp; Ingredients
                     </h2>
 
                     <div class="space-y-6">
                         <div class="space-y-1.5">
-                            <label for="id_description" class="text-xs font-bold text-[#26332F] block">Product Description &amp; Details</label>
-                            <textarea id="id_description" name="description" rows="5" placeholder="Enter product benefits, key natural ingredients, suitable skin types, daily use directions..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-4 text-xs font-medium text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all resize-none">{{ data.description|default:'' }}</textarea>
+                            <label for="id_description" class="text-xs font-bold text-[#26332F] block">Description <span class="text-[#B85C62]">*</span></label>
+                            <textarea id="id_description" name="description" rows="4" placeholder="Enter product overview, primary skin benefits, and directions for daily use..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-4 text-xs font-medium text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all resize-none">{{ data.description|default:'' }}</textarea>
                             {% if errors.description %}
                                 <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
                                     <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
@@ -180,7 +191,18 @@
                         </div>
 
                         <div class="space-y-1.5">
-                            <label class="text-xs font-bold text-[#26332F] block">Product Image</label>
+                            <label for="id_ingredients" class="text-xs font-bold text-[#26332F] block">Ingredients</label>
+                            <textarea id="id_ingredients" name="ingredients" rows="3" placeholder="e.g. Aqua, Glycerin, Centella Asiatica Extract, Niacinamide, Hyaluronic Acid..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-xl p-4 text-xs font-medium text-[#26332F] placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:bg-[#FFFFFF] transition-all resize-none">{{ data.ingredients|default:'' }}</textarea>
+                            {% if errors.ingredients %}
+                                <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1 mt-1">
+                                    <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                                    {{ errors.ingredients }}
+                                </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold text-[#26332F] block">Product Image <span class="text-[#B85C62]">*</span></label>
                             <div class="bg-[#F7F4EE] border-2 border-dashed border-[#DED9D0] hover:border-[#52796F] rounded-2xl p-6 text-center transition-all group">
                                 <div class="w-12 h-12 rounded-2xl bg-[#FFFFFF] border border-[#DED9D0] flex items-center justify-center text-[#52796F] mx-auto mb-3 shadow-sm group-hover:scale-105 transition-transform">
                                     <i data-lucide="image" class="w-6 h-6"></i>
@@ -212,7 +234,7 @@
                         <p class="text-[11px] text-[#68736F]">Make this product visible to customers immediately after saving</p>
                     </div>
                     <label class="relative inline-flex items-center cursor-pointer select-none">
-                        <input type="checkbox" id="id_is_active" name="is_active" value="true" checked class="sr-only peer">
+                        <input type="checkbox" id="id_is_active" name="is_active" value="true" {% if data.is_active or data.is_active is None %}checked{% endif %} class="sr-only peer">
                         <div class="w-11 h-6 bg-[#DED9D0] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-[#DED9D0] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#52796F]"></div>
                     </label>
                 </div>
