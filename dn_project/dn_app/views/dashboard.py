@@ -13,6 +13,11 @@ def admin_dashboard_view(request):
     
     context = {
         'section': section,
+        'awaiting_dispatch_count': Order.objects.filter(status=Order.Status.CONFIRMED).count(),
+        'awaiting_delivery_count': Order.objects.filter(status=Order.Status.SHIPPING).count(),
+        'delivered_count': Order.objects.filter(status=Order.Status.DELIVERED).count(),
+        'completed_count': Order.objects.filter(status=Order.Status.COMPLETED).count(),
+        'cancelled_count': Order.objects.filter(status=Order.Status.CANCELLED).count(),
     }
     
     if section == 'customer-management':
@@ -48,7 +53,7 @@ def customer_dashboard_view(request):
     }
     
     if section == 'pending-orders':
-        context['pending_orders'] = Order.objects.filter(customer=request.user).exclude(status__in=['completed', 'cancelled']).order_by('-created_at')
+        context['pending_orders'] = Order.objects.filter(customer=request.user).exclude(status__in=[Order.Status.COMPLETED, Order.Status.CANCELLED]).order_by('-created_at')
         
     if section == 'my-orders':
         context['my_orders'] = None
