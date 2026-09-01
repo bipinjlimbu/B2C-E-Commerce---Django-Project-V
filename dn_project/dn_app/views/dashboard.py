@@ -52,6 +52,8 @@ def customer_dashboard_view(request):
     
     context = {
         'section': section,
+        'gross_spent': Order.objects.filter(customer=request.user, status=Order.Status.COMPLETED).aggregate(models.Sum('total_amount'))['total_amount__sum'] or 0,
+        'average_spent': Order.objects.filter(customer=request.user, status=Order.Status.COMPLETED).aggregate(models.Avg('total_amount'))['total_amount__avg'] or 0,
     }
     
     if section == 'pending-orders':
