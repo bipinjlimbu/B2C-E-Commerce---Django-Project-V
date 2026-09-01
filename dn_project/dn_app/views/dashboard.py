@@ -61,7 +61,7 @@ def customer_dashboard_view(request):
         context['orders'] = Order.objects.filter(customer=request.user, status__in=[Order.Status.COMPLETED, Order.Status.CANCELLED]).order_by('-created_at')
         
     if section == 'total-spent':
-        context['total_spent'] = None
+        context['total_spent'] = Order.objects.filter(customer=request.user, status=Order.Status.COMPLETED).order_by('-created_at')
         
     if section == 'my-reviews':
         context['my_reviews'] = None
