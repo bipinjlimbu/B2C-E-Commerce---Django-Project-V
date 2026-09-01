@@ -25,7 +25,7 @@ def admin_dashboard_view(request):
         context['brands'] = Brand.objects.all()
 
     if section == 'order-fulfillment':
-        context['orders'] = None
+        context['orders'] = Order.objects.all().order_by('-created_at')
     
     if section == 'product-reviews':
         context['reviews'] = None
