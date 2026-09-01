@@ -53,7 +53,11 @@
                             <td class="p-4 align-middle">
                                 <div class="flex items-center gap-3">
                                     <div class="w-8 h-8 rounded-full bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F] font-bold text-xs shrink-0">
-                                        <i data-lucide="user" class="w-4 h-4"></i>
+                                        {% if log.customer.profile_picture %}
+                                            <img src="{{ log.customer.profile_picture.url }}" alt="{{ log.customer.get_full_name }}" class="w-full h-full object-cover rounded-full">
+                                        {% else %}
+                                            <i data-lucide="user" class="w-4 h-4"></i>
+                                        {% endif %}
                                     </div>
                                     <div>
                                         <span class="text-[#26332F] font-bold block">{{ log.customer.get_full_name|default:"N/A" }}</span>
