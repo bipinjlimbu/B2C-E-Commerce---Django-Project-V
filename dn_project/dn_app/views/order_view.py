@@ -42,3 +42,23 @@ def deliver_order_view(request, order_id):
     order.save()
     messages.success(request, 'Order marked as delivered successfully.')
     return redirect('/dashboard/admin/?section=order-fulfillment')
+
+@login_required
+def complete_order_view(request, order_id):
+    if request.user.is_superuser:
+        messages.error(request, 'You are not authorized to access this page.')
+        return redirect('/')
+    
+    order = Order.objects.get(id=order_id)
+    if not order:
+        messages.error(request, 'Order does not exist.')
+        return redirect('/dashboard/?section=my-orders')
+    
+    if order.status != Order.Status.DELIVERED:
+        messages.error(request, 'Only delivered orders can be marked as completed.')
+        return redirect('/dashboard/?section=my-orders')
+    
+    order.status = Order.Status.COMPLETED
+    order.save()
+    messages.success(request, 'Order marked as completed successfully.')
+    return redirect('/dashboard/?section=my-orders')
