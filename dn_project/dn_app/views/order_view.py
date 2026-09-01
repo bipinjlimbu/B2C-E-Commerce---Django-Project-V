@@ -62,3 +62,23 @@ def complete_order_view(request, order_id):
     order.save()
     messages.success(request, 'Order marked as completed successfully.')
     return redirect('/dashboard/?section=my-orders')
+
+@login_required
+def cancel_order_view(request, order_id):
+    if request.user.is_superuser:
+        messages.error(request, 'You are not authorized to access this page.')
+        return redirect('/')
+    
+    order = Order.objects.get(id=order_id)
+    if not order:
+        messages.error(request, 'Order does not exist.')
+        return redirect('/dashboard/?section=my-orders')
+    
+    if order.status in [Order.Status.COMPLETED, Order.Status.CANCELLED]:
+        messages.error(request, 'Completed or cancelled orders cannot be cancelled again.')
+        return redirect('/dashboard/?section=my-orders')
+    
+    order.status = Order.Status.CANCELLED
+    order.save()
+    messages.success(request, 'Order cancelled successfully.')
+    return redirect('/dashboard/?section=my-orders')
