@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Review | DermaNest</title>
+    {% load static %}
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+</head>
+<body class="bg-[#F7F4EE] font-sans min-h-screen flex flex-col text-[#68736F] antialiased selection:bg-[#52796F]/10 selection:text-[#52796F]">
+
+    {% include 'components/_navbar.html' %}
+
+    {% include 'components/_messages.html' %}
+
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 lg:p-10 my-6">
+        <div class="w-full max-w-2xl bg-[#FFFFFF] border border-[#DED9D0] rounded-3xl shadow-sm overflow-hidden relative">
+            
+            <div class="bg-gradient-to-r from-[#26332F] via-[#52796F] to-[#3F6259] p-6 sm:p-8 text-white relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-[#C6A15B]/10 blur-2xl pointer-events-none"></div>
+                
+                <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C6A15B] mb-2">
+                    <i data-lucide="edit-3" class="w-4 h-4"></i>
+                    Update Your Feedback
+                </div>
+                
+                <h1 class="text-2xl sm:text-3xl font-serif font-bold text-[#F7F4EE] tracking-tight">Edit Product Review</h1>
+                
+                <div class="mt-4 pt-4 border-t border-white/10 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center text-[#C6A15B] shrink-0 border border-white/10">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <span class="text-[11px] uppercase tracking-wider text-white/60 font-semibold block">Skincare Product</span>
+                        <p class="text-sm sm:text-base font-bold text-white leading-tight line-clamp-1">{{ review.product.name }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <form method="POST" class="p-6 sm:p-8 space-y-8">
+                {% csrf_token %}
+
+                <div class="space-y-6">
+                    
+                    <div class="bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl p-5 sm:p-6 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold uppercase tracking-wider text-[#26332F] flex items-center gap-1.5">
+                                <i data-lucide="star" class="w-4 h-4 text-[#C6A15B]"></i>
+                                Your Rating
+                            </label>
+                            <span id="rating_display" class="text-xs font-bold px-3 py-1 rounded-full bg-[#FFFFFF] border border-[#DED9D0] text-[#26332F] shadow-xs">
+                                {{ review.rating|default:5 }} / 5
+                            </span>
+                        </div>
+
+                        <input type="hidden" name="rating" id="id_rating" {% if data %} value="{{ data.rating|default:5 }}" {% else %} value="{{ review.rating|default:5 }}" {% endif %}>
+
+                        <div class="flex items-center gap-2 bg-[#FFFFFF] border border-[#DED9D0] p-3.5 rounded-xl justify-center sm:justify-start">
+                            <button type="button" data-star="1" class="star-btn text-[#DED9D0] hover:scale-110 transition-transform focus:outline-none p-1 cursor-pointer">
+                                <i data-lucide="star" class="w-7 h-7"></i>
+                            </button>
+                            <button type="button" data-star="2" class="star-btn text-[#DED9D0] hover:scale-110 transition-transform focus:outline-none p-1 cursor-pointer">
+                                <i data-lucide="star" class="w-7 h-7"></i>
+                            </button>
+                            <button type="button" data-star="3" class="star-btn text-[#DED9D0] hover:scale-110 transition-transform focus:outline-none p-1 cursor-pointer">
+                                <i data-lucide="star" class="w-7 h-7"></i>
+                            </button>
+                            <button type="button" data-star="4" class="star-btn text-[#DED9D0] hover:scale-110 transition-transform focus:outline-none p-1 cursor-pointer">
+                                <i data-lucide="star" class="w-7 h-7"></i>
+                            </button>
+                            <button type="button" data-star="5" class="star-btn text-[#DED9D0] hover:scale-110 transition-transform focus:outline-none p-1 cursor-pointer">
+                                <i data-lucide="star" class="w-7 h-7"></i>
+                            </button>
+                        </div>
+
+                        {% if errors.rating %}
+                            <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1.5 bg-[#B85C62]/10 p-2.5 rounded-xl border border-[#B85C62]/20">
+                                <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                                {{ errors.rating }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="id_comment" class="text-xs font-bold uppercase tracking-wider text-[#26332F] flex items-center gap-1.5">
+                            <i data-lucide="message-square" class="w-4 h-4 text-[#C6A15B]"></i>
+                            Your Written Review
+                        </label>
+                        
+                        <div class="relative">
+                            <textarea id="id_comment" name="comment" rows="6" placeholder="Update your thoughts on how this skincare product worked for your routine..." class="w-full bg-[#F7F4EE] border border-[#DED9D0] rounded-2xl p-4 text-sm text-[#26332F] font-medium placeholder-[#68736F]/50 focus:outline-none focus:border-[#52796F] focus:ring-2 focus:ring-[#52796F]/20 transition-all leading-relaxed resize-y">{% if data %}{{ data.comment|default:'' }}{% else %}{{ review.comment|default:'' }}{% endif %}</textarea>
+                        </div>
+
+                        {% if errors.comment %}
+                            <p class="text-[#B85C62] text-xs font-semibold flex items-center gap-1.5 bg-[#B85C62]/10 p-2.5 rounded-xl border border-[#B85C62]/20">
+                                <i data-lucide="alert-circle" class="w-4 h-4 shrink-0"></i>
+                                {{ errors.comment }}
+                            </p>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-[#DED9D0]">
+                    <button type="submit" class="w-full sm:w-auto flex-1 bg-[#52796F] hover:bg-[#3F6259] text-white font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 text-sm shadow-sm hover:shadow active:scale-[0.98] cursor-pointer">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C6A15B]"></i>
+                        Save Changes
+                    </button>
+                    
+                    <a href="javascript:history.back()" class="w-full sm:w-auto flex-1 bg-[#F7F4EE] hover:bg-[#DED9D0]/40 text-[#26332F] font-semibold py-3.5 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 text-sm border border-[#DED9D0]">
+                        <i data-lucide="arrow-left" class="w-4 h-4 text-[#68736F]"></i>
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    {% include 'components/_footer.html' %}
+
+    <script src="{% static 'js/lucide.min.js' %}"></script>
+    <script>
+        lucide.createIcons();
+
+        const ratingInput = document.getElementById('id_rating');
+        const ratingDisplay = document.getElementById('rating_display');
+        const starButtons = document.querySelectorAll('.star-btn');
+
+        function updateStars(rating) {
+            if (ratingDisplay) {
+                ratingDisplay.textContent = `${rating} / 5`;
+            }
+            starButtons.forEach(btn => {
+                const btnStarValue = parseInt(btn.getAttribute('data-star'));
+                const icon = btn.querySelector('[data-lucide="star"]');
+                if (icon) {
+                    if (btnStarValue <= rating) {
+                        icon.classList.add('fill-[#C6A15B]', 'text-[#C6A15B]');
+                        icon.classList.remove('text-[#DED9D0]');
+                    } else {
+                        icon.classList.remove('fill-[#C6A15B]', 'text-[#C6A15B]');
+                        icon.classList.add('text-[#DED9D0]');
+                    }
+                }
+            });
+        }
+
+        const currentRating = parseInt(ratingInput.value) || 5;
+        updateStars(currentRating);
+
+        starButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const selectedRating = parseInt(this.getAttribute('data-star'));
+                ratingInput.value = selectedRating;
+                updateStars(selectedRating);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -37,3 +37,7 @@ def add_review_view(request, product_id):
         return redirect('product_detail', product_id=product_id)
     
     return render(request, 'main/add_review_page.html', {'product': product})
+
+@login_required
+def edit_review_view(request, review_id):
+    return render(request, 'main/edit_review_page.html')
