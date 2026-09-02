@@ -77,3 +77,23 @@ def edit_review_view(request, review_id):
         return redirect('/dashboard/?section=my-reviews')
     
     return render(request, 'main/edit_review_page.html', {'review': review})
+
+@login_required
+def delete_review_view(request, review_id):
+    review = Review.objects.filter(id=review_id).first()
+    
+    if not review:
+        messages.error(request, 'Review not found or you are not authorized to delete this review.')
+        return redirect('products')
+    
+    if review.customer == request.user or request.user.is_superuser:
+        review.delete()
+        messages.success(request, 'Review deleted successfully.')
+        
+        if request.user.is_superuser:
+            return redirect('/dashboard/admin/?section=product-reviews')
+        else:
+            return redirect('/dashboard/?section=my-reviews')
+    else:
+        messages.error(request, 'You are not authorized to delete this review.')
+        return redirect('products')
