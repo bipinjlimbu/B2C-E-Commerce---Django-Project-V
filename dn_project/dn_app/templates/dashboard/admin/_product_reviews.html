@@ -45,7 +45,11 @@
                             <td class="p-4 pl-6">
                                 <div class="flex items-center gap-3">
                                     <div class="w-9 h-9 rounded-lg bg-[#F7F4EE] border border-[#DED9D0] flex items-center justify-center text-[#52796F] shrink-0">
-                                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                        {% if review.product.product_image %}
+                                            <img src="{{ review.product.product_image.url }}" alt="{{ review.product.name }}" class="w-full h-full object-cover rounded-lg">
+                                        {% else %}
+                                            <i data-lucide="image" class="w-5 h-5"></i>
+                                        {% endif %}
                                     </div>
                                     <div class="min-w-0">
                                         <span class="text-[#26332F] font-bold block truncate max-w-[200px]">{{ review.product.name }}</span>
