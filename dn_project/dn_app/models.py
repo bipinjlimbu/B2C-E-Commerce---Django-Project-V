@@ -108,7 +108,7 @@ class Order(models.Model):
         ESEWA = 'esewa', 'Esewa'
         COD = 'cod', 'Cash on Delivery'
 
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+    customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='orders')
     total_amount = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.CONFIRMED)
     transaction_id = models.CharField(max_length=100, blank=True, null=True)
